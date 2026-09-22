@@ -156,24 +156,8 @@
       <Setter.Value>
         <ControlTemplate TargetType="ToggleButton">
           <Panel>
-            <Border x:Name="GlowBorder"
-                    CornerRadius="{TemplateBinding CornerRadius}"
-                    Margin="-3"
-                    BorderThickness="2.5"
-                    Opacity="0"
-                    IsHitTestVisible="False">
-              <Border.BorderBrush>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                  <GradientStop Offset="0" Color="{DynamicResource Accent.Rose}" />
-                  <GradientStop Offset="0.5" Color="{DynamicResource Accent.Lavender}" />
-                  <GradientStop Offset="1" Color="{DynamicResource Accent.Rose}" />
-                </LinearGradientBrush>
-              </Border.BorderBrush>
-              <Border.Effect>
-                <DropShadowEffect Color="{DynamicResource Accent.Rose}"
-                                  BlurRadius="12" Opacity="0.55" />
-              </Border.Effect>
-            </Border>
+            <!-- Inset glow ring: lives fully inside the button bounds so no
+                 ancestor or effect clipping can chop it. Painted over Chrome. -->
             <Border x:Name="Chrome"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
@@ -185,6 +169,20 @@
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Border>
+            <Border x:Name="GlowBorder"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Margin="2.5"
+                    BorderThickness="2"
+                    Opacity="0"
+                    IsHitTestVisible="False">
+              <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                  <GradientStop Offset="0" Color="{DynamicResource Accent.Rose}" />
+                  <GradientStop Offset="0.5" Color="{DynamicResource Accent.Lavender}" />
+                  <GradientStop Offset="1" Color="{DynamicResource Accent.Rose}" />
+                </LinearGradientBrush>
+              </Border.BorderBrush>
             </Border>
           </Panel>
         </ControlTemplate>
@@ -214,6 +212,18 @@
         </KeyFrame>
       </Animation>
     </Style.Animations>
+  </Style>
+
+  <!-- Fluent's own ToggleButton styles target ContentPresenter#PART_ContentPresenter
+       (system accent fill + white text when checked). Neutralize them so only
+       our Chrome border shows; text inherits the ToggleButton foreground. -->
+  <Style Selector="ToggleButton /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource Brush.Fg.Secondary}" />
+  </Style>
+  <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="TextBlock.Foreground" Value="#2A101B" />
   </Style>
   <Style Selector="ToggleButton:checked">
     <Setter Property="Background" Value="{DynamicResource Brush.Accent}" />
