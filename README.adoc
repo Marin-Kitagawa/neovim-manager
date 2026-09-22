@@ -70,6 +70,23 @@ On first launch:
 3. Install something, open its *Configure* page, tweak options, and press
    *Save & write managed config*.
 
+== Continuous integration & releases
+
+Pushes and pull requests to `main` run `.github/workflows/dotnet-desktop.yml`:
+build (Debug + Release), unit tests, then publish + upload of the Release
+output. Those files land as *Artifacts* on the workflow run page (they
+expire) — they never appear under *Releases*.
+
+A version tag triggers `.github/workflows/release.yml` instead: it builds,
+tests, publishes, zips the app, and creates a GitHub Release with
+`NvimManager-win-x64.zip` attached and auto-generated notes. To cut one:
+
+[source,powershell]
+----
+git tag v0.1.0
+git push origin v0.1.0
+----
+
 == Pages
 
 === Store
