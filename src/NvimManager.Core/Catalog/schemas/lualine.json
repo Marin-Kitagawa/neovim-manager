@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "properties": {
+    "options": {
+      "type": "object",
+      "title": "Options",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "title": "Theme",
+          "description": "Built-in theme name or a custom theme table.",
+          "default": "auto"
+        },
+        "icons_enabled": { "type": "boolean", "title": "Icons enabled", "default": true },
+        "globalstatus": { "type": "boolean", "title": "Global statusline", "default": false },
+        "always_divide_middle": { "type": "boolean", "title": "Always divide middle", "default": true },
+        "component_separators": {
+          "type": "string",
+          "title": "Component separator",
+          "default": "|"
+        },
+        "section_separators": {
+          "type": "string",
+          "title": "Section separator",
+          "default": "="
+        },
+        "disabled_filetypes": {
+          "type": "array",
+          "title": "Disabled filetypes",
+          "items": { "type": "string" }
+        },
+        "ignore_focus": {
+          "type": "array",
+          "title": "Ignore focus",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "sections": {
+      "type": "lua",
+      "title": "Custom sections",
+      "description": "Override lualine_a..x sections, e.g. { lualine_a = { \"mode\" }, lualine_b = { \"branch\" } }"
+    },
+    "extensions": {
+      "type": "array",
+      "title": "Extensions",
+      "items": { "type": "string" },
+      "description": "Built-in extension names, e.g. \"fugitive\", \"telescope\"."
+    }
+  }
+}

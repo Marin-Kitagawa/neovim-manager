@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "properties": {
+    "size": {
+      "type": "number",
+      "title": "Size",
+      "description": "Default window height (fraction or absolute), e.g. 0.4 or 16.",
+      "default": 1
+    },
+    "open_mapping": {
+      "type": "string",
+      "title": "Open mapping",
+      "description": "Keymap to toggle the default terminal, e.g. \"<c-\\\\>\" or \"<leader>t\".",
+      "default": "<c-\\>"
+    },
+    "direction": {
+      "type": "select",
+      "title": "Direction",
+      "enum": ["horizontal", "vertical", "float"],
+      "default": "horizontal"
+    },
+    "shade_terminals": { "type": "boolean", "title": "Shade terminals", "default": true },
+    "shading_factor": { "type": "number", "title": "Shading factor", "default": 1 },
+    "start_in_insert": { "type": "boolean", "title": "Start in insert", "default": true },
+    "insert_mappings": { "type": "boolean", "title": "Insert mappings", "default": true },
+    "terminal_mappings": { "type": "boolean", "title": "Terminal mappings", "default": true },
+    "persist_size": { "type": "boolean", "title": "Persist size", "default": true },
+    "close_on_exit": { "type": "boolean", "title": "Close on exit", "default": true },
+    "hide_numbers": { "type": "boolean", "title": "Hide numbers", "default": true },
+    "shell": {
+      "type": "string",
+      "title": "Shell",
+      "description": "Shell to use. Empty uses the default shell."
+    },
+    "float_opts": {
+      "type": "object",
+      "title": "Float options",
+      "properties": {
+        "border": {
+          "type": "select",
+          "enum": ["single", "double", "shadow", "curved", "rounded", "none"],
+          "default": "curved"
+        },
+        "width": { "type": "number", "title": "Width", "default": 0.8 },
+        "height": { "type": "number", "title": "Height", "default": 0.8 }
+      }
+    }
+  }
+}

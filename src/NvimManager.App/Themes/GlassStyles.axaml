@@ -1,0 +1,447 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dc="using:Avalonia.Data.Converters">
+
+  <!-- ============ Shared surfaces ============ -->
+
+  <Style Selector="Border.glass">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.Border}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="14" />
+  </Style>
+
+  <Style Selector="Border.inset">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Inset}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.BorderInset}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+  </Style>
+
+  <Style Selector="Border.pill">
+    <Setter Property="CornerRadius" Value="999" />
+  </Style>
+
+  <Style Selector="TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+  </Style>
+
+  <!-- ============ Buttons: cozy pills, translucent glass ============ -->
+
+  <Style Selector="Button">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.Border}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="CornerRadius" Value="11" />
+    <Setter Property="Padding" Value="16,8" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Chrome"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style Selector="Button:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Hover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.BorderStrong}" />
+  </Style>
+  <Style Selector="Button:pressed">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.InsetHover}" />
+    <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+  </Style>
+  <Style Selector="Button:disabled">
+    <Setter Property="Opacity" Value="0.45" />
+  </Style>
+  <Style Selector="Button:focus-visible">
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Lavender}" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+  </Style>
+
+  <Style Selector="Button.accent">
+    <Setter Property="Background" Value="{DynamicResource Brush.Accent}" />
+    <Setter Property="BorderBrush" Value="#00FFFFFF" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="#2A101B" />
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="Padding" Value="20,9" />
+    <Setter Property="Effect" Value="{DynamicResource Effect.Accent}" />
+  </Style>
+  <Style Selector="Button.accent:pointerover">
+    <Setter Property="Opacity" Value="0.92" />
+  </Style>
+  <Style Selector="Button.accent:pressed">
+    <Setter Property="Opacity" Value="0.8" />
+  </Style>
+
+  <Style Selector="Button.soft">
+    <Setter Property="Background" Value="#0AFFFFFF" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.BorderInset}" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg.Secondary}" />
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="Padding" Value="14,7" />
+    <Setter Property="Effect" Value="{x:Null}" />
+  </Style>
+  <Style Selector="Button.soft:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Hover}" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.BorderStrong}" />
+  </Style>
+
+  <Style Selector="Button.caption">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg.Secondary}" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="11,9" />
+    <Setter Property="Effect" Value="{x:Null}" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="MinWidth" Value="34" />
+    <Setter Property="Height" Value="30" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Button.caption:pointerover">
+    <Setter Property="Background" Value="#26FFFFFF" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+  </Style>
+  <Style Selector="Button.caption.close:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Coral}" />
+    <Setter Property="Foreground" Value="#2A0E0B" />
+  </Style>
+
+  <Style Selector="Button.icon">
+    <Setter Property="Padding" Value="8,8" />
+    <Setter Property="CornerRadius" Value="9" />
+    <Setter Property="MinWidth" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Effect" Value="{x:Null}" />
+  </Style>
+  <Style Selector="Button.icon:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Hover}" />
+  </Style>
+
+  <!-- ============ Toggle / chips ============ -->
+
+  <Style Selector="ToggleButton">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.Border}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg.Secondary}" />
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="Padding" Value="14,7" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ToggleButton">
+          <Panel>
+            <Border x:Name="GlowBorder"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Margin="-3"
+                    BorderThickness="2.5"
+                    Opacity="0"
+                    IsHitTestVisible="False">
+              <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                  <GradientStop Offset="0" Color="{DynamicResource Accent.Rose}" />
+                  <GradientStop Offset="0.5" Color="{DynamicResource Accent.Lavender}" />
+                  <GradientStop Offset="1" Color="{DynamicResource Accent.Rose}" />
+                </LinearGradientBrush>
+              </Border.BorderBrush>
+              <Border.Effect>
+                <DropShadowEffect Color="{DynamicResource Accent.Rose}"
+                                  BlurRadius="12" Opacity="0.55" />
+              </Border.Effect>
+            </Border>
+            <Border x:Name="Chrome"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Padding="{TemplateBinding Padding}">
+              <ContentPresenter x:Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </Border>
+          </Panel>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style Selector="ToggleButton:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Hover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.BorderStrong}" />
+  </Style>
+  <Style Selector="ToggleButton:focus-visible">
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+  </Style>
+  <Style Selector="ToggleButton:focus-visible /template/ Border#GlowBorder">
+    <Setter Property="Opacity" Value="0.7" />
+  </Style>
+  <Style Selector="ToggleButton:checked /template/ Border#GlowBorder">
+    <Setter Property="Opacity" Value="1" />
+    <Style.Animations>
+      <Animation Duration="0:0:1.6" IterationCount="Infinite"
+                 PlaybackDirection="Alternate" Easing="SineEaseInOut">
+        <KeyFrame Cue="0%">
+          <Setter Property="Opacity" Value="0.45" />
+        </KeyFrame>
+        <KeyFrame Cue="100%">
+          <Setter Property="Opacity" Value="1" />
+        </KeyFrame>
+      </Animation>
+    </Style.Animations>
+  </Style>
+  <Style Selector="ToggleButton:checked">
+    <Setter Property="Background" Value="{DynamicResource Brush.Accent}" />
+    <Setter Property="BorderBrush" Value="#00FFFFFF" />
+    <Setter Property="Foreground" Value="#2A101B" />
+    <Setter Property="Effect" Value="{DynamicResource Effect.Accent}" />
+  </Style>
+  <Style Selector="ToggleButton:checked:pointerover">
+    <Setter Property="Opacity" Value="0.92" />
+  </Style>
+  <Style Selector="ToggleButton:disabled">
+    <Setter Property="Opacity" Value="0.45" />
+  </Style>
+
+  <!-- ============ TextBox: frosted inset wells, rose caret + selection ============ -->
+
+  <Style Selector="TextBox">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Inset}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.BorderInset}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="10,7" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="CaretBrush" Value="{DynamicResource Brush.Rose}" />
+    <Setter Property="SelectionBrush" Value="#664F4A5E" />
+    <Setter Property="SelectionForegroundBrush" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="TextBox">
+          <Border x:Name="Wells"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <Grid>
+              <ScrollViewer x:Name="PART_ScrollViewer" Padding="0">
+                <TextPresenter x:Name="PART_TextPresenter"
+                               Text="{TemplateBinding Text, Mode=TwoWay}"
+                               CaretBrush="{TemplateBinding CaretBrush}"
+                               SelectionBrush="{TemplateBinding SelectionBrush}"
+                               SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                               TextAlignment="{TemplateBinding TextAlignment}"
+                               TextWrapping="{TemplateBinding TextWrapping}"
+                               LineHeight="{TemplateBinding LineHeight}" />
+              </ScrollViewer>
+              <TextBlock x:Name="Watermark"
+                         Text="{TemplateBinding Watermark}"
+                         IsVisible="{Binding Text, Converter={x:Static dc:StringConverters.IsNullOrEmpty}, RelativeSource={RelativeSource TemplatedParent}}"
+                         Foreground="{DynamicResource Brush.Fg.Tertiary}"
+                         TextAlignment="{TemplateBinding TextAlignment}"
+                         VerticalAlignment="Center"
+                         IsHitTestVisible="False" />
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style Selector="TextBox:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.InsetHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.Border}" />
+  </Style>
+  <Style Selector="TextBox:focus-within">
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Lavender}" />
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.InsetHover}" />
+  </Style>
+  <Style Selector="TextBox:disabled">
+    <Setter Property="Opacity" Value="0.5" />
+  </Style>
+
+  <!-- ============ CheckBox: rounded frosted box with a rose check ============ -->
+
+  <Style Selector="CheckBox">
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="CheckBox">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Border x:Name="PART_Bullet" Width="18" Height="18" CornerRadius="6"
+                    Background="{DynamicResource Brush.Glass.Inset}"
+                    BorderBrush="{DynamicResource Brush.Glass.Border}"
+                    BorderThickness="1" VerticalAlignment="Center">
+              <Path x:Name="Icon" Data="{DynamicResource Icon.Check}" Stretch="Uniform"
+                    Margin="3.5" Stroke="{DynamicResource Brush.Fg}" StrokeThickness="2"
+                    StrokeLineCap="Round" StrokeJoin="Round" IsVisible="False" />
+            </Border>
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="Center" />
+          </StackPanel>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style Selector="CheckBox:pointerover /template/ Border#PART_Bullet">
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Rose}" />
+  </Style>
+  <Style Selector="CheckBox:checked /template/ Border#PART_Bullet">
+    <Setter Property="Background" Value="{DynamicResource Brush.Rose.Deep}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Rose.Deep}" />
+  </Style>
+  <Style Selector="CheckBox:checked /template/ Path#Icon">
+    <Setter Property="IsVisible" Value="True" />
+  </Style>
+  <Style Selector="CheckBox:indeterminate /template/ Border#PART_Bullet">
+    <Setter Property="Background" Value="{DynamicResource Brush.Lavender}" />
+  </Style>
+  <Style Selector="CheckBox:disabled">
+    <Setter Property="Opacity" Value="0.5" />
+  </Style>
+
+  <!-- ============ Lists: transparent hosts, cozy glass rows ============ -->
+
+  <Style Selector="ListBox">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="2" />
+  </Style>
+  <Style Selector="ListBox > ListBoxItem">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Padding" Value="10,7" />
+    <Setter Property="Margin" Value="0,1" />
+    <Setter Property="CornerRadius" Value="11" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ListBoxItem">
+          <Border x:Name="ItemRoot"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="{TemplateBinding CornerRadius}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style Selector="ListBox > ListBoxItem:pointerover /template/ Border#ItemRoot">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Hover}" />
+  </Style>
+  <Style Selector="ListBox > ListBoxItem:selected /template/ Border#ItemRoot">
+    <Setter Property="Background" Value="#33F4A7C3" />
+    <Setter Property="BorderBrush" Value="#66F4A7C3" />
+    <Setter Property="BorderThickness" Value="1" />
+  </Style>
+  <Style Selector="ListBox > ListBoxItem:selected TextBlock">
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+  </Style>
+  <Style Selector="ListBox > ListBoxItem:selected Path">
+    <Setter Property="Stroke" Value="{DynamicResource Brush.Rose}" />
+  </Style>
+
+  <!-- ============ ComboBox + its dropdown items ============ -->
+
+  <Style Selector="ComboBox">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Inset}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.BorderInset}" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="12,7" />
+    <Setter Property="FontSize" Value="13" />
+  </Style>
+  <Style Selector="ComboBox:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.InsetHover}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.Border}" />
+  </Style>
+  <Style Selector="ComboBoxItem">
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="ComboBoxItem:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Hover}" />
+  </Style>
+  <Style Selector="ComboBoxItem:selected">
+    <Setter Property="Background" Value="#33F4A7C3" />
+  </Style>
+
+  <!-- ============ Scrollbars: slim, rounded, rose on hover ============ -->
+
+  <Style Selector="ScrollBar">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="ScrollBar Thumb">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.BorderStrong}" />
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="MinWidth" Value="6" />
+    <Setter Property="MinHeight" Value="28" />
+    <Setter Property="Margin" Value="2" />
+  </Style>
+  <Style Selector="ScrollBar Thumb:pointerover">
+    <Setter Property="Background" Value="{DynamicResource Brush.Rose}" />
+  </Style>
+
+  <!-- ============ Progress: pastel rose, frosted track ============ -->
+
+  <Style Selector="ProgressBar">
+    <Setter Property="Background" Value="{DynamicResource Brush.Glass.Inset}" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Accent}" />
+    <Setter Property="CornerRadius" Value="999" />
+    <Setter Property="MinHeight" Value="8" />
+    <Setter Property="MaxHeight" Value="8" />
+  </Style>
+
+  <!-- ============ ToolTips: frosted chips ============ -->
+
+  <Style Selector="ToolTip">
+    <Setter Property="Background" Value="#F2231C26" />
+    <Setter Property="BorderBrush" Value="{DynamicResource Brush.Glass.Border}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+    <Setter Property="Padding" Value="10,6" />
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+
+  <Style Selector="Expander">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource Brush.Fg}" />
+  </Style>
+
+</Styles>

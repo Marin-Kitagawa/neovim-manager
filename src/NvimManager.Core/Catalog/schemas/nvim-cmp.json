@@ -1,0 +1,83 @@
+{
+  "type": "object",
+  "properties": {
+    "completion": {
+      "type": "object",
+      "title": "Completion",
+      "properties": {
+        "autocomplete": {
+          "type": "select",
+          "enum": ["false"],
+          "default": "false",
+          "description": "When to trigger completion automatically. Use the Lua editor for lists like { 'InsertEnter', 'TextChanged' }."
+        },
+        "keyword_length": { "type": "integer", "title": "Keyword length", "default": 1 },
+        "completeopt": { "type": "string", "title": "Completeopt", "default": "menu,menuone,noselect" }
+      }
+    },
+    "confirmation": {
+      "type": "object",
+      "title": "Confirmation",
+      "properties": {
+        "commit_character": { "type": "string", "title": "Commit character", "default": "\n" }
+      }
+    },
+    "window": {
+      "type": "object",
+      "title": "Windows",
+      "properties": {
+        "completion": {
+          "type": "object",
+          "title": "Completion window",
+          "properties": {
+            "border": {
+              "type": "select",
+              "enum": ["rounded", "single", "double", "solid", "shadow", "none"],
+              "default": "rounded"
+            },
+            "winhighlight": { "type": "string", "default": "Normal:CmpPmenu" }
+          }
+        },
+        "documentation": {
+          "type": "object",
+          "title": "Documentation window",
+          "properties": {
+            "border": {
+              "type": "select",
+              "enum": ["rounded", "single", "double", "solid", "shadow", "none"],
+              "default": "rounded"
+            }
+          }
+        }
+      }
+    },
+    "experimental": {
+      "type": "object",
+      "title": "Experimental",
+      "properties": {
+        "ghost_text": { "type": "boolean", "title": "Ghost text", "default": false },
+        "native_menu": { "type": "boolean", "title": "Native menu", "default": false }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "title": "Performance",
+      "properties": {
+        "debounce": { "type": "integer", "title": "Debounce (ms)", "default": 60 },
+        "fetching_timeout": { "type": "integer", "title": "Fetching timeout (ms)", "default": 200 },
+        "max_view_entries": { "type": "integer", "title": "Max view entries", "default": 200 }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "title": "Sources",
+      "items": { "type": "string" },
+      "description": "Source names in order of priority, e.g. \"nvim_lsp\", \"buffer\", \"path\", \"luasnip\"."
+    },
+    "mapping": {
+      "type": "lua",
+      "title": "Keymaps",
+      "description": "Table of key mappings using cmp.mapping, e.g. { ['<C-n>'] = cmp.mapping.select_next_item(), ['<C-Space>'] = cmp.mapping.complete() }"
+    }
+  }
+}

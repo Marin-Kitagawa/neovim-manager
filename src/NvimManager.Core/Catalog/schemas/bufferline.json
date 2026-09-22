@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "options": {
+      "type": "object",
+      "title": "Options",
+      "properties": {
+        "mode": {
+          "type": "select",
+          "enum": ["buffer", "tabs", "numbers"],
+          "default": "buffer"
+        },
+        "numbers": {
+          "type": "select",
+          "enum": ["none", "ordinal", "buffer_id", "both"],
+          "default": "none"
+        },
+        "separator_style": {
+          "type": "select",
+          "enum": ["slant", "thick", "thin", "absolute", "solid", "padded_slant"],
+          "default": "slant"
+        },
+        "always_show_bufferline": { "type": "boolean", "default": true },
+        "show_close_icon": { "type": "boolean", "default": true },
+        "show_buffer_close_icons": { "type": "boolean", "default": true },
+        "show_buffer_icons": { "type": "boolean", "default": true },
+        "enforce_regular_tabs": { "type": "boolean", "default": false },
+        "max_name_length": { "type": "integer", "title": "Max name length", "default": 18 },
+        "max_prefix_length": { "type": "integer", "title": "Max prefix length", "default": 15 },
+        "truncate_names": { "type": "boolean", "default": true },
+        "diagnostics": {
+          "type": "select",
+          "enum": ["false", "nvim_lsp", "coc", "nvim_diagnostic"],
+          "default": "false"
+        },
+        "indicator": { "type": "string", "title": "Indicator", "default": "▎" },
+        "indicator_icon": { "type": "string", "title": "Indicator icon", "default": "▎" },
+        "buffer_close_icon": { "type": "string", "title": "Buffer close icon", "default": "󰅖" },
+        "modified_icon": { "type": "string", "title": "Modified icon", "default": "●" },
+        "close_icon": { "type": "string", "title": "Close icon", "default": "" },
+        "left_trunc_marker": { "type": "string", "title": "Left trunc marker", "default": "<" },
+        "right_trunc_marker": { "type": "string", "title": "Right trunc marker", "default": ">" },
+        "persist_buffer_sort": { "type": "boolean", "default": true },
+        "offsets": {
+          "type": "lua",
+          "title": "Offsets",
+          "description": "Table of { filetype, text, separator, padding } entries to leave space for other UIs."
+        }
+      }
+    },
+    "highlights": {
+      "type": "lua",
+      "title": "Highlights",
+      "description": "Table of highlight groups to override, e.g. { buffer_selected = { bold = true } }"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {
+    "formatters_by_ft": {
+      "type": "lua",
+      "title": "Formatters by filetype",
+      "description": "Table mapping filetypes to formatters, e.g. { lua = { \"stylua\" }, javascript = { \"prettierd\", \"prettier\" } }",
+      "default": "{}\n"
+    },
+    "format_on_save": {
+      "type": "lua",
+      "title": "Format on save",
+      "description": "Either false, a table like { timeout_ms = 500, lsp_fallback = true }, or a function.",
+      "default": "{}\n"
+    },
+    "formatters": {
+      "type": "lua",
+      "title": "Formatter configs",
+      "description": "Table of formatter definitions, e.g. { prettier = { prepend_args = { \"--tab-width\", \"2\" } } }"
+    },
+    "notify_on_error": {
+      "type": "boolean",
+      "title": "Notify on error",
+      "default": true
+    },
+    "notify_no_formatters": {
+      "type": "boolean",
+      "title": "Notify no formatters",
+      "default": false
+    },
+    "default_format_on_save": {
+      "type": "lua",
+      "title": "Default format on save",
+      "description": "Fallback when no format_on_save given, e.g. { timeout_ms = 500 }"
+    }
+  }
+}

@@ -1,0 +1,641 @@
+{
+  "version": 1,
+  "categories": [
+    "Colorscheme",
+    "UI & Statusline",
+    "Completion & LSP",
+    "Editing",
+    "File & Search",
+    "Git & Tools"
+  ],
+  "plugins": [
+    {
+      "id": "tokyonight",
+      "name": "tokyonight.nvim",
+      "repo": "folke/tokyonight.nvim",
+      "description": "A clean, dark and light Neovim theme written in Lua, with support for lsp and treesitter syntax.",
+      "category": "Colorscheme",
+      "tags": ["colorscheme", "lsp", "treesitter"],
+      "dependencies": [],
+      "stars": 7200,
+      "schemaId": "tokyonight",
+      "featured": true
+    },
+    {
+      "id": "catppuccin",
+      "name": "catppuccin.nvim",
+      "repo": "catppuccin/nvim",
+      "description": "Warm pastel colorscheme with a huge number of integrations and 4 flavors (latte/frappe/macchiato/mocha).",
+      "category": "Colorscheme",
+      "tags": ["colorscheme"],
+      "dependencies": [],
+      "stars": 5900,
+      "featured": true
+    },
+    {
+      "id": "rose-pine",
+      "name": "rose-pine",
+      "repo": "rose-pine/neovim",
+      "description": "All natural pine, faux fur and a bit of soho vibes for the classy minimalist.",
+      "category": "Colorscheme",
+      "tags": ["colorscheme"],
+      "dependencies": [],
+      "stars": 2900
+    },
+    {
+      "id": "dracula",
+      "name": "dracula.nvim",
+      "repo": "Mofiqul/dracula.nvim",
+      "description": "Dracula theme for Neovim, written in Lua.",
+      "category": "Colorscheme",
+      "tags": ["colorscheme"],
+      "dependencies": [],
+      "stars": 1300
+    },
+    {
+      "id": "gruvbox",
+      "name": "gruvbox.nvim",
+      "repo": "ellisonleao/gruvbox.nvim",
+      "description": "Lua port of the famous gruvbox theme, heavily customizable.",
+      "category": "Colorscheme",
+      "tags": ["colorscheme"],
+      "dependencies": [],
+      "stars": 2300
+    },
+    {
+      "id": "nightfox",
+      "name": "nightfox.nvim",
+      "repo": "EdenEast/nightfox.nvim",
+      "description": "A highly customizable theme set (night, day, dawn, dusk, nordfox, terafox, carbonfox) with LSP support.",
+      "category": "Colorscheme",
+      "tags": ["colorscheme"],
+      "dependencies": [],
+      "stars": 3100
+    },
+    {
+      "id": "kanagawa",
+      "name": "kanagawa.nvim",
+      "repo": "rebelot/kanagawa.nvim",
+      "description": "Neo-colorscheme inspired by the colors of the famous painting by Katsushika Hokusai.",
+      "category": "Colorscheme",
+      "tags": ["colorscheme"],
+      "dependencies": [],
+      "stars": 5200
+    },
+    {
+      "id": "everforest",
+      "name": "everforest",
+      "repo": "sainnhe/everforest",
+      "description": "A green-based Neovim colorscheme designed to be warm and soft.",
+      "category": "Colorscheme",
+      "tags": ["colorscheme"],
+      "dependencies": [],
+      "stars": 3200
+    },
+    {
+      "id": "nordic",
+      "name": "nordic.nvim",
+      "repo": "AlexvZyl/nordic.nvim",
+      "description": "Nordic theme for Neovim: a clear, tasteful and minimal color scheme.",
+      "category": "Colorscheme",
+      "tags": ["colorscheme"],
+      "dependencies": [],
+      "stars": 800
+    },
+    {
+      "id": "lualine",
+      "name": "lualine.nvim",
+      "repo": "nvim-lualine/lualine.nvim",
+      "description": "A blazing fast and easy to configure neovim statusline written in pure Lua.",
+      "category": "UI & Statusline",
+      "tags": ["statusline", "ui"],
+      "dependencies": ["nvim-tree/nvim-web-devicons"],
+      "stars": 6800,
+      "schemaId": "lualine",
+      "featured": true
+    },
+    {
+      "id": "bufferline",
+      "name": "bufferline.nvim",
+      "repo": "akinsho/bufferline.nvim",
+      "description": "A snazzy bufferline for Neovim: show open buffers in the tab bar.",
+      "category": "UI & Statusline",
+      "tags": ["bufferline", "ui"],
+      "dependencies": ["nvim-tree/nvim-web-devicons"],
+      "stars": 4200,
+      "featured": true
+    },
+    {
+      "id": "which-key",
+      "name": "which-key.nvim",
+      "repo": "folke/which-key.nvim",
+      "description": "Displays a popup with possible keybindings of the command you started typing.",
+      "category": "UI & Statusline",
+      "tags": ["keymaps", "help", "ui"],
+      "dependencies": [],
+      "stars": 6500,
+      "schemaId": "which-key",
+      "featured": true
+    },
+    {
+      "id": "noice",
+      "name": "noice.nvim",
+      "repo": "folke/noice.nvim",
+      "description": "High performance all-in-one UI plugin replacing the cmdline, messages and popupmenu with fancy UIs.",
+      "category": "UI & Statusline",
+      "tags": ["ui", "cmdline", "messages"],
+      "dependencies": ["MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim"],
+      "stars": 6300,
+      "schemaId": "noice",
+      "featured": true
+    },
+    {
+      "id": "nvim-notify",
+      "name": "nvim-notify",
+      "repo": "rcarriga/nvim-notify",
+      "description": "A fancy, configurable notification window for Neovim.",
+      "category": "UI & Statusline",
+      "tags": ["notifications", "ui"],
+      "dependencies": [],
+      "stars": 3400
+    },
+    {
+      "id": "web-devicons",
+      "name": "nvim-web-devicons",
+      "repo": "nvim-tree/nvim-web-devicons",
+      "description": "Provides Lua functions and icons for many developer friendly file types.",
+      "category": "UI & Statusline",
+      "tags": ["icons"],
+      "dependencies": [],
+      "stars": 2900
+    },
+    {
+      "id": "mini-icons",
+      "name": "mini.icons",
+      "repo": "echasnovski/mini.icons",
+      "description": "Icon provider for file type and icons for various parts of Neovim UI.",
+      "category": "UI & Statusline",
+      "tags": ["icons"],
+      "dependencies": [],
+      "stars": 1300
+    },
+    {
+      "id": "indent-blankline",
+      "name": "indent-blankline.nvim",
+      "repo": "lukas-reineke/indent-blankline.nvim",
+      "description": "Indent guides for Neovim, with configurable scope highlighting.",
+      "category": "UI & Statusline",
+      "tags": ["indent", "guides"],
+      "dependencies": [],
+      "stars": 4900
+    },
+    {
+      "id": "colorful-winsep",
+      "name": "colorful-winsep.nvim",
+      "repo": "nvim-zh/colorful-winsep.nvim",
+      "description": "A configurable nvim plugin that paints window separators with colors.",
+      "category": "UI & Statusline",
+      "tags": ["ui", "window"],
+      "dependencies": [],
+      "stars": 800
+    },
+    {
+      "id": "zen-mode",
+      "name": "zen-mode.nvim",
+      "repo": "folke/zen-mode.nvim",
+      "description": "Distraction-free coding for Neovim with a plugin that hides all the UI.",
+      "category": "UI & Statusline",
+      "tags": ["ui", "focus"],
+      "dependencies": [],
+      "stars": 2100
+    },
+    {
+      "id": "telescope",
+      "name": "telescope.nvim",
+      "repo": "nvim-telescope/telescope.nvim",
+      "description": "Highly extendable fuzzy finder over lists. Built on the latest awesome features from Neovim core.",
+      "category": "File & Search",
+      "tags": ["fuzzy", "finder", "search"],
+      "dependencies": ["nvim-lua/plenary.nvim"],
+      "stars": 16000,
+      "schemaId": "telescope",
+      "featured": true
+    },
+    {
+      "id": "flash",
+      "name": "flash.nvim",
+      "repo": "folke/flash.nvim",
+      "description": "Navigate your code with search labels, enhanced character motions and Treesitter integration.",
+      "category": "File & Search",
+      "tags": ["motion", "search", "jump"],
+      "dependencies": [],
+      "stars": 3700,
+      "featured": true
+    },
+    {
+      "id": "hop",
+      "name": "hop.nvim",
+      "repo": "smoka7/hop.nvim",
+      "description": "Neovim motions on speed: jump anywhere in a file with a fair-dice-roll UI.",
+      "category": "File & Search",
+      "tags": ["motion", "jump"],
+      "dependencies": [],
+      "stars": 4700
+    },
+    {
+      "id": "harpoon",
+      "name": "harpoon",
+      "repo": "ThePrimeagen/harpoon",
+      "description": "Quickly navigate your project files with a simple bookmark system.",
+      "category": "File & Search",
+      "tags": ["navigation", "bookmarks"],
+      "dependencies": [],
+      "stars": 7900
+    },
+    {
+      "id": "neo-tree",
+      "name": "neo-tree.nvim",
+      "repo": "nvim-neo-tree/neo-tree.nvim",
+      "description": "Neovim file browser: tree, buffers and gitstatus views, with fuzzy finder.",
+      "category": "File & Search",
+      "tags": ["filetree", "explorer"],
+      "dependencies": ["MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "nvim-tree/nvim-web-devicons"],
+      "stars": 4600,
+      "featured": true
+    },
+    {
+      "id": "aerial",
+      "name": "aerial.nvim",
+      "repo": "stevearc/aerial.nvim",
+      "description": "Code outline window for navigating large and complex code files with ease.",
+      "category": "File & Search",
+      "tags": ["outline", "navigate"],
+      "dependencies": ["nvim-telescope/telescope.nvim", "nvim-treesitter/nvim-treesitter"],
+      "stars": 2300
+    },
+    {
+      "id": "trouble",
+      "name": "trouble.nvim",
+      "repo": "folke/trouble.nvim",
+      "description": "A pretty diagnostics, references, telescope results list to help you solve all the trouble your code is causing.",
+      "category": "Completion & LSP",
+      "tags": ["diagnostics", "lsp"],
+      "dependencies": ["nvim-tree/nvim-web-devicons"],
+      "stars": 6800
+    },
+    {
+      "id": "nvim-cmp",
+      "name": "nvim-cmp",
+      "repo": "hrsh7th/nvim-cmp",
+      "description": "A completion plugin for Neovim written in Lua, with source and mapping modules.",
+      "category": "Completion & LSP",
+      "tags": ["completion", "lsp", "autocomplete"],
+      "dependencies": ["hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip"],
+      "stars": 9000,
+      "schemaId": "nvim-cmp",
+      "featured": true
+    },
+    {
+      "id": "cmp-nvim-lsp",
+      "name": "cmp-nvim-lsp",
+      "repo": "hrsh7th/cmp-nvim-lsp",
+      "description": "nvim-cmp source for neovim builtin LSP client.",
+      "category": "Completion & LSP",
+      "tags": ["completion", "lsp"],
+      "dependencies": ["hrsh7th/nvim-cmp"],
+      "stars": 4500
+    },
+    {
+      "id": "cmp-buffer",
+      "name": "cmp-buffer",
+      "repo": "hrsh7th/cmp-buffer",
+      "description": "nvim-cmp source for buffer words.",
+      "category": "Completion & LSP",
+      "tags": ["completion"],
+      "dependencies": ["hrsh7th/nvim-cmp"],
+      "stars": 1200
+    },
+    {
+      "id": "cmp-path",
+      "name": "cmp-path",
+      "repo": "hrsh7th/cmp-path",
+      "description": "nvim-cmp source for path.",
+      "category": "Completion & LSP",
+      "tags": ["completion"],
+      "dependencies": ["hrsh7th/nvim-cmp"],
+      "stars": 1100
+    },
+    {
+      "id": "luasnip",
+      "name": "LuaSnip",
+      "repo": "L3MON4D3/LuaSnip",
+      "description": "Snippet Engine for Neovim, written in Lua.",
+      "category": "Completion & LSP",
+      "tags": ["snippets"],
+      "dependencies": [],
+      "stars": 4300
+    },
+    {
+      "id": "friendly-snippets",
+      "name": "friendly-snippets",
+      "repo": "rafamadriz/friendly-snippets",
+      "description": "Set of preconfigured snippets for different languages.",
+      "category": "Completion & LSP",
+      "tags": ["snippets"],
+      "dependencies": ["L3MON4D3/LuaSnip"],
+      "stars": 2700
+    },
+    {
+      "id": "lspconfig",
+      "name": "nvim-lspconfig",
+      "repo": "neovim/nvim-lspconfig",
+      "description": "Quickstart configs for Neovim's Built-in LSP client.",
+      "category": "Completion & LSP",
+      "tags": ["lsp"],
+      "dependencies": ["williamboman/mason-lspconfig.nvim"],
+      "stars": 11000
+    },
+    {
+      "id": "mason",
+      "name": "mason.nvim",
+      "repo": "williamboman/mason.nvim",
+      "description": "Portable package manager for Neovim that runs everywhere Neovim runs. Easily install and manage LSP/DAP/formatter servers.",
+      "category": "Completion & LSP",
+      "tags": ["lsp", "dap", "installer"],
+      "dependencies": [],
+      "stars": 9000,
+      "schemaId": "mason",
+      "featured": true
+    },
+    {
+      "id": "mason-lspconfig",
+      "name": "mason-lspconfig.nvim",
+      "repo": "williamboman/mason-lspconfig.nvim",
+      "description": "Extensions to mason.nvim that make it easier to use lspconfig with mason.nvim.",
+      "category": "Completion & LSP",
+      "tags": ["lsp"],
+      "dependencies": ["williamboman/mason.nvim", "neovim/nvim-lspconfig"],
+      "stars": 2300
+    },
+    {
+      "id": "conform",
+      "name": "conform.nvim",
+      "repo": "stevearc/conform.nvim",
+      "description": "Lightweight yet powerful formatter plugin for Neovim.",
+      "category": "Completion & LSP",
+      "tags": ["formatting"],
+      "dependencies": [],
+      "stars": 4000,
+      "schemaId": "conform",
+      "featured": true
+    },
+    {
+      "id": "lspsaga",
+      "name": "lspsaga.nvim",
+      "repo": "nvimdev/lspsaga.nvim",
+      "description": "Improve neovim LSP experience with a floating window UI for diagnostics and more.",
+      "category": "Completion & LSP",
+      "tags": ["lsp", "ui"],
+      "dependencies": ["nvim-tree/nvim-web-devicons"],
+      "stars": 3700
+    },
+    {
+      "id": "navic",
+      "name": "nvim-navic",
+      "repo": "SmiteshP/nvim-navic",
+      "description": "Simple winbar/statusline plugin that uses LSP to show your current code context.",
+      "category": "Completion & LSP",
+      "tags": ["lsp", "statusline"],
+      "dependencies": ["neovim/nvim-lspconfig"],
+      "stars": 1900
+    },
+    {
+      "id": "nvim-dap",
+      "name": "nvim-dap",
+      "repo": "mfussenegger/nvim-dap",
+      "description": "Debug Adapter Protocol client implementation for Neovim.",
+      "category": "Completion & LSP",
+      "tags": ["dap", "debug"],
+      "dependencies": ["nvim-neotest/nvim-nio"],
+      "stars": 6200
+    },
+    {
+      "id": "nvim-dap-ui",
+      "name": "nvim-dap-ui",
+      "repo": "rcarriga/nvim-dap-ui",
+      "description": "A UI for nvim-dap which provides a good out of the box experience.",
+      "category": "Completion & LSP",
+      "tags": ["dap", "debug", "ui"],
+      "dependencies": ["mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"],
+      "stars": 3600
+    },
+    {
+      "id": "lazydev",
+      "name": "lazydev.nvim",
+      "repo": "folke/lazydev.nvim",
+      "description": "Faster LuaLS setup for Neovim plugins — LSP for your plugin development.",
+      "category": "Completion & LSP",
+      "tags": ["lsp", "dev"],
+      "dependencies": [],
+      "stars": 1600
+    },
+    {
+      "id": "treesitter",
+      "name": "nvim-treesitter",
+      "repo": "nvim-treesitter/nvim-treesitter",
+      "description": "Nvim Treesitter configurations and abstraction layer for various modules.",
+      "category": "Editing",
+      "tags": ["treesitter", "syntax", "highlight"],
+      "dependencies": [],
+      "stars": 12000,
+      "schemaId": "treesitter",
+      "featured": true
+    },
+    {
+      "id": "comment",
+      "name": "Comment.nvim",
+      "repo": "numToStr/Comment.nvim",
+      "description": "Smart and powerful comment plugin for Neovim.",
+      "category": "Editing",
+      "tags": ["comments"],
+      "dependencies": [],
+      "stars": 4600,
+      "featured": true
+    },
+    {
+      "id": "nvim-surround",
+      "name": "nvim-surround",
+      "repo": "kylechui/nvim-surround",
+      "description": "Add/change/delete surrounding delimiter pairs with ease.",
+      "category": "Editing",
+      "tags": ["surround", "edit"],
+      "dependencies": [],
+      "stars": 4100
+    },
+    {
+      "id": "vim-repeat",
+      "name": "vim-repeat",
+      "repo": "tpope/vim-repeat",
+      "description": "Enable repeating supported plugin maps with the '.' command.",
+      "category": "Editing",
+      "tags": ["repeat"],
+      "dependencies": [],
+      "stars": 2800
+    },
+    {
+      "id": "autopairs",
+      "name": "nvim-autopairs",
+      "repo": "windwp/nvim-autopairs",
+      "description": "Autopairs for Neovim written in Lua.",
+      "category": "Editing",
+      "tags": ["autopairs"],
+      "dependencies": ["hrsh7th/nvim-cmp"],
+      "stars": 3900
+    },
+    {
+      "id": "ts-autotag",
+      "name": "nvim-ts-autotag",
+      "repo": "windwp/nvim-ts-autotag",
+      "description": "Use treesitter to autoclose and autorename html tag.",
+      "category": "Editing",
+      "tags": ["html", "treesitter"],
+      "dependencies": ["nvim-treesitter/nvim-treesitter"],
+      "stars": 2300
+    },
+    {
+      "id": "vim-illuminate",
+      "name": "vim-illuminate",
+      "repo": "RRethy/vim-illuminate",
+      "description": "Illuminate the other uses of the current word under the cursor.",
+      "category": "Editing",
+      "tags": ["highlight"],
+      "dependencies": [],
+      "stars": 2600
+    },
+    {
+      "id": "vim-matchup",
+      "name": "vim-matchup",
+      "repo": "andymass/vim-matchup",
+      "description": "Modern matchit: highlight matching words and delimiters, navigate nicely.",
+      "category": "Editing",
+      "tags": ["matchit", "navigation"],
+      "dependencies": [],
+      "stars": 2100
+    },
+    {
+      "id": "better-escape",
+      "name": "better-escape.nvim",
+      "repo": "max397574/better-escape.nvim",
+      "description": "Map escape keys to jj or jk sequences for fast mode switching.",
+      "category": "Editing",
+      "tags": ["motion", "keymaps"],
+      "dependencies": [],
+      "stars": 900
+    },
+    {
+      "id": "todo-comments",
+      "name": "todo-comments.nvim",
+      "repo": "folke/todo-comments.nvim",
+      "description": "Highlight, list and search todo comments like TODO, FIX, HACK, WARN.",
+      "category": "Editing",
+      "tags": ["comments", "annotations"],
+      "dependencies": ["nvim-lua/plenary.nvim"],
+      "stars": 5200
+    },
+    {
+      "id": "gitsigns",
+      "name": "gitsigns.nvim",
+      "repo": "lewis6991/gitsigns.nvim",
+      "description": "Git integration for buffers: signs, blame, preview, hunks, in pure Lua.",
+      "category": "Git & Tools",
+      "tags": ["git", "signs"],
+      "dependencies": [],
+      "stars": 6000,
+      "featured": true
+    },
+    {
+      "id": "fugitive",
+      "name": "vim-fugitive",
+      "repo": "tpope/vim-fugitive",
+      "description": "A Git wrapper for the vim ecosystem: :G status, diff, blame, etc.",
+      "category": "Git & Tools",
+      "tags": ["git"],
+      "dependencies": [],
+      "stars": 19900,
+      "featured": true
+    },
+    {
+      "id": "neogit",
+      "name": "neogit",
+      "repo": "NeogitOrg/neogit",
+      "description": "Magit fork for Neovim: full git UI inside the editor.",
+      "category": "Git & Tools",
+      "tags": ["git", "ui"],
+      "dependencies": ["nvim-lua/plenary.nvim", "sindrets/diffview.nvim"],
+      "stars": 6500
+    },
+    {
+      "id": "diffview",
+      "name": "diffview.nvim",
+      "repo": "sindrets/diffview.nvim",
+      "description": "Single tabpage interface for easily cycling through diffs for all modified files for changes.",
+      "category": "Git & Tools",
+      "tags": ["git", "diff"],
+      "dependencies": ["nvim-lua/plenary.nvim"],
+      "stars": 5500
+    },
+    {
+      "id": "toggleterm",
+      "name": "toggleterm.nvim",
+      "repo": "akinsho/toggleterm.nvim",
+      "description": "Persistent and customizable floating terminal for Neovim.",
+      "category": "Git & Tools",
+      "tags": ["terminal", "ui"],
+      "dependencies": [],
+      "stars": 5800,
+      "schemaId": "toggleterm",
+      "featured": true
+    },
+    {
+      "id": "rest",
+      "name": "rest.nvim",
+      "repo": "rest-nvim/rest.nvim",
+      "description": "A fast Neovim HTTP client written in Lua.",
+      "category": "Git & Tools",
+      "tags": ["http", "rest"],
+      "dependencies": ["nvim-treesitter/nvim-treesitter"],
+      "stars": 1800
+    },
+    {
+      "id": "markdown-preview",
+      "name": "markdown-preview.nvim",
+      "repo": "iamcco/markdown-preview.nvim",
+      "description": "Preview markdown on your modern browser with synchronised scrolling, in real time.",
+      "category": "Git & Tools",
+      "tags": ["markdown", "preview"],
+      "dependencies": [],
+      "stars": 7300,
+      "build": "cd app && npm install"
+    },
+    {
+      "id": "auto-save",
+      "name": "auto-save.nvim",
+      "repo": "Pocco81/auto-save.nvim",
+      "description": "A fast and small Neovim plugin meant to save files automatically on various events.",
+      "category": "Git & Tools",
+      "tags": ["save", "autosave"],
+      "dependencies": [],
+      "stars": 800
+    },
+    {
+      "id": "persistence",
+      "name": "persistence.nvim",
+      "repo": "folke/persistence.nvim",
+      "description": "Simple session management for Neovim: restore the working directory and sessions.",
+      "category": "Git & Tools",
+      "tags": ["sessions"],
+      "dependencies": [],
+      "stars": 1400
+    }
+  ]
+}

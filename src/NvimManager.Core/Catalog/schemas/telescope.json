@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "properties": {
+    "defaults": {
+      "type": "object",
+      "title": "Defaults",
+      "properties": {
+        "sorting_strategy": {
+          "type": "select",
+          "enum": ["ascending", "descending"],
+          "default": "descending"
+        },
+        "layout_strategy": {
+          "type": "select",
+          "enum": ["horizontal", "vertical", "flex", "bottom_pane", "cursor", "center"],
+          "default": "horizontal"
+        },
+        "layout_config": {
+          "type": "lua",
+          "title": "Layout config",
+          "description": "Table with width/height/etc., e.g. { horizontal = { prompt_position = \"top\", preview_width = 0.55 } }"
+        },
+        "prompt_prefix": { "type": "string", "title": "Prompt prefix", "default": "> " },
+        "selection_caret": { "type": "string", "title": "Selection caret", "default": "  " },
+        "initial_mode": {
+          "type": "select",
+          "title": "Initial mode",
+          "enum": ["insert", "normal"],
+          "default": "insert"
+        },
+        "file_ignore_patterns": {
+          "type": "array",
+          "title": "File ignore patterns",
+          "items": { "type": "string" },
+          "description": "Default ignore patterns, e.g. \"node_modules\", \"%.git%\"."
+        },
+        "path_display": {
+          "type": "array",
+          "title": "Path display",
+          "items": { "type": "string" },
+          "description": "Modes like \"smart\", \"shorten\", \"hidden\", \"absolute\"."
+        },
+        "smart_case": { "type": "boolean", "title": "Smart case", "default": true },
+        "follow": { "type": "boolean", "title": "Follow current file", "default": false },
+        "color_devicons": { "type": "boolean", "title": "Color devicons", "default": true },
+        "winblend": { "type": "integer", "title": "Winblend", "default": 0 },
+        "results_title": { "type": "string", "title": "Results title", "default": "Results" }
+      }
+    },
+    "pickers": {
+      "type": "lua",
+      "title": "Pickers",
+      "description": "Per-picker config, e.g. { find_files = { hidden = true, follow = true } }"
+    },
+    "extensions": {
+      "type": "lua",
+      "title": "Extensions",
+      "description": "Table of extension configs, e.g. { fzf = { fuzzy = true } }"
+    }
+  }
+}

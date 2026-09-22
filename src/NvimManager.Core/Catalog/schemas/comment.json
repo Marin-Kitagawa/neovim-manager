@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "properties": {
+    "padding": { "type": "boolean", "title": "Padding", "default": true },
+    "sticky": { "type": "boolean", "title": "Sticky", "default": true },
+    "ignore": {
+      "type": "array",
+      "title": "Ignore",
+      "items": { "type": "string" },
+      "description": "Lua patterns of lines that are never commented."
+    },
+    "mappings": {
+      "type": "object",
+      "title": "Mappings",
+      "properties": {
+        "basic": { "type": "boolean", "title": "Basic mappings", "default": true },
+        "extra": { "type": "boolean", "title": "Extra mappings", "default": true }
+      }
+    },
+    "toggler": {
+      "type": "lua",
+      "title": "Toggler",
+      "description": "Keys for line/block toggling, e.g. { line = \"gcc\", block = \"gbc\" }"
+    },
+    "opleader": {
+      "type": "lua",
+      "title": "Operator",
+      "description": "Keys for operator mode, e.g. { line = \"gc\", block = \"gb\" }"
+    },
+    "extra": {
+      "type": "lua",
+      "title": "Extra mappings",
+      "description": "Keys for extra mappings, e.g. { above = \"gcO\", below = \"gco\", eol = \"gcA\" }"
+    },
+    "pre_hook": {
+      "type": "lua",
+      "title": "Pre hook",
+      "description": "Function called before toggling, handy for treesitter-based toggling."
+    },
+    "post_hook": {
+      "type": "lua",
+      "title": "Post hook",
+      "description": "Function called after toggling."
+    }
+  }
+}

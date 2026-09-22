@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NvimManager.App.Views.MascotView">
+
+  <!-- Sprout: a sleepy potted seedling. All fills come from the active theme. -->
+  <Viewbox Stretch="Uniform">
+    <Canvas Width="120" Height="120">
+
+      <Path Data="{DynamicResource Icon.Star.Small}" Fill="{DynamicResource Brush.Honey}"
+            Width="11" Height="11" Stretch="Uniform" Canvas.Left="13" Canvas.Top="23" />
+      <Path Data="{DynamicResource Icon.Star.Small}" Fill="{DynamicResource Brush.Lavender}"
+            Width="13" Height="13" Stretch="Uniform" Canvas.Left="95" Canvas.Top="15" />
+      <Path Data="{DynamicResource Icon.Star.Small}" Fill="{DynamicResource Brush.Rose}"
+            Width="10" Height="10" Stretch="Uniform" Canvas.Left="93" Canvas.Top="85" />
+
+      <Path Data="M60,68 C60,56 59,48 60,40" Stroke="{DynamicResource Brush.Mint}"
+            StrokeThickness="5" StrokeLineCap="Round" Fill="Transparent" />
+
+      <Path Data="M60,56 C48,57 40,49 38,38 C50,37 58,44 60,56 Z"
+            Fill="{DynamicResource Brush.Mint}" />
+      <Path Data="M60,50 C72,51 80,43 82,32 C70,31 62,38 60,50 Z"
+            Fill="{DynamicResource Brush.Mint}" Opacity="0.75" />
+
+      <Ellipse Width="11" Height="11" Canvas.Left="54.5" Canvas.Top="26.5"
+               Fill="{DynamicResource Brush.Rose}" />
+      <Ellipse Width="4.5" Height="4.5" Canvas.Left="57.75" Canvas.Top="30.25"
+               Fill="{DynamicResource Brush.Honey}" />
+
+      <Path Data="M33,81 H87 L81,108 Q80.5,111 77,111 H43 Q39.5,111 39,108 Z"
+            Fill="{DynamicResource Brush.Honey}" Opacity="0.8" StrokeJoin="Round" />
+
+      <Rectangle Width="64" Height="13" Canvas.Left="28" Canvas.Top="68"
+                 RadiusX="6" RadiusY="6" Fill="{DynamicResource Brush.Honey}" />
+
+      <Path Data="M49,93 Q52,90 55,93" Stroke="#4A3F35" StrokeThickness="2"
+            StrokeLineCap="Round" Fill="Transparent" />
+      <Path Data="M65,93 Q68,90 71,93" Stroke="#4A3F35" StrokeThickness="2"
+            StrokeLineCap="Round" Fill="Transparent" />
+      <Path Data="M55,100 Q60,103 65,100" Stroke="#4A3F35" StrokeThickness="2"
+            StrokeLineCap="Round" Fill="Transparent" />
+
+      <Ellipse Width="8" Height="5" Canvas.Left="43" Canvas.Top="96"
+               Fill="{DynamicResource Brush.Rose}" Opacity="0.8" />
+      <Ellipse Width="8" Height="5" Canvas.Left="69" Canvas.Top="96"
+               Fill="{DynamicResource Brush.Rose}" Opacity="0.8" />
+
+    </Canvas>
+  </Viewbox>
+</UserControl>

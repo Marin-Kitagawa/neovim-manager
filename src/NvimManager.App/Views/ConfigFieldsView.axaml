@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NvimManager.App.Views.ConfigFieldsView">
+
+  <StackPanel Spacing="6">
+    <TextBlock Text="{Binding FormHint}" TextWrapping="Wrap"
+               Foreground="{DynamicResource Brush.Fg.Tertiary}" FontSize="12" Margin="0,0,0,6" />
+
+    <ItemsControl ItemsSource="{Binding Fields}" />
+
+    <Expander Header="Raw opts override (replaces the form above)" IsExpanded="False" Margin="0,8,0,0">
+      <TextBox Text="{Binding RawOptsLua, Mode=TwoWay}" AcceptsReturn="True" MinHeight="120"
+               FontFamily="Consolas, Cascadia Code, monospace" TextWrapping="NoWrap"
+               Watermark="Lua table emitted verbatim as opts = ..." Margin="0,10,0,0" />
+    </Expander>
+  </StackPanel>
+</UserControl>

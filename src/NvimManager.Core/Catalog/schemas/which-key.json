@@ -1,0 +1,69 @@
+{
+  "type": "object",
+  "properties": {
+    "delay": {
+      "type": "number",
+      "title": "Delay (ms)",
+      "description": "Show the popup after this many milliseconds.",
+      "default": 0
+    },
+    "popup_border": {
+      "type": "select",
+      "title": "Popup border",
+      "enum": ["single", "double", "rounded", "shadow", "none"],
+      "default": "single"
+    },
+    "win": {
+      "type": "object",
+      "title": "Win highlight",
+      "properties": {
+        "border": { "type": "string", "title": "Border hl group", "default": "FloatBorder" },
+        "padding": { "type": "object", "properties": {
+          "1": { "type": "string", "default": "NormalFloat" },
+          "2": { "type": "string", "default": "NormalFloat" }
+        } },
+        "winblend": { "type": "integer", "title": "Winblend", "default": 0 }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "title": "Layout",
+      "properties": {
+        "width": { "type": "integer", "title": "Width", "default": 60 },
+        "height": { "type": "integer", "title": "Height", "default": 11 },
+        "spacing": { "type": "array", "title": "Spacing", "items": { "type": "number" }, "description": "line / column / min_width / min_height fractions." },
+        "align": { "type": "select", "title": "Align", "enum": ["left", "right", "center"], "default": "left" }
+      }
+    },
+    "plugins": {
+      "type": "object",
+      "title": "Plugin presets",
+      "properties": {
+        "spelling": { "type": "boolean", "default": true, "description": "Enable SpellingMaps." },
+        "presets": {
+          "type": "object",
+          "title": "Built-in presets",
+          "properties": {
+            "operators": { "type": "boolean", "default": true },
+            "motions": { "type": "boolean", "default": true },
+            "text_objects": { "type": "boolean", "default": true },
+            "windows": { "type": "boolean", "default": true },
+            "nav": { "type": "boolean", "default": true },
+            "z": { "type": "boolean", "default": true },
+            "g": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    },
+    "key_labels": {
+      "type": "lua",
+      "title": "Key labels",
+      "description": "Table mapping keys to labels, e.g. { [\"<leader>\"] = \"SPC\" }"
+    },
+    "icons": {
+      "type": "lua",
+      "title": "Icons",
+      "description": "Table of icons used in the popup, e.g. { breadcrumb = \"»\", separator = \">\" }"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "properties": {
+    "ensure_installed": {
+      "type": "array",
+      "title": "Ensure installed",
+      "items": { "type": "string" },
+      "description": "Names of servers/tools to auto-install on startup, e.g. \"lua_ls\", \"pyright\", \"prettier\"."
+    },
+    "max_concurrent_installers": {
+      "type": "integer",
+      "title": "Max concurrent installers",
+      "default": 4
+    },
+    "ui": {
+      "type": "object",
+      "title": "UI",
+      "properties": {
+        "height": { "type": "number", "title": "Height", "default": 0.8 },
+        "width": { "type": "number", "title": "Width", "default": 0.8 },
+        "border": {
+          "type": "select",
+          "enum": ["none", "single", "double", "rounded", "solid", "shadow"],
+          "default": "none"
+        },
+        "wrap_border": { "type": "boolean", "default": true },
+        "icons": {
+          "type": "object",
+          "title": "Icons",
+          "properties": {
+            "package_installed": { "type": "string", "default": "◍", "description": "Unicode-like glyph for installed." },
+            "package_pending": { "type": "string", "default": "◌" },
+            "package_uninstalled": { "type": "string", "default": "◍" }
+          }
+        }
+      }
+    },
+    "registries": {
+      "type": "array",
+      "title": "Registries",
+      "items": { "type": "string" },
+      "description": "Custom registry URLs."
+    },
+    "pip": {
+      "type": "object",
+      "title": "Pip config",
+      "properties": {
+        "upgrade_pip": { "type": "boolean", "title": "Upgrade pip", "default": false },
+        "install_args": {
+          "type": "array",
+          "title": "Install args",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "github": {
+      "type": "lua",
+      "title": "GitHub download",
+      "description": "Table overriding download behavior, e.g. { download_url_template = \"/releases/download/v%s/%s\" }"
+    }
+  }
+}

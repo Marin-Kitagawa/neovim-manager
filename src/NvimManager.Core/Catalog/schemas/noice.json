@@ -1,0 +1,82 @@
+{
+  "type": "object",
+  "properties": {
+    "notify": {
+      "type": "object",
+      "title": "Notifications",
+      "properties": {
+        "enabled": { "type": "boolean", "title": "Enabled", "default": true },
+        "view": { "type": "string", "title": "View", "default": "notify" }
+      }
+    },
+    "messages": {
+      "type": "object",
+      "title": "Messages",
+      "properties": {
+        "enabled": { "type": "boolean", "title": "Enabled", "default": true },
+        "view": { "type": "select", "title": "View", "enum": ["notify", "mini"], "default": "notify" }
+      }
+    },
+    "popupmenu": {
+      "type": "object",
+      "title": "Popup menu",
+      "properties": {
+        "enabled": { "type": "boolean", "title": "Enabled", "default": true },
+        "backend": { "type": "select", "title": "Backend", "enum": ["nui", "cmp"], "default": "nui" }
+      }
+    },
+    "cmdline": {
+      "type": "object",
+      "title": "Command line",
+      "properties": {
+        "enabled": { "type": "boolean", "title": "Enabled", "default": true },
+        "view": { "type": "select", "title": "View", "enum": ["cmdline_popup", "cmdline"], "default": "cmdline_popup" }
+      }
+    },
+    "lsp": {
+      "type": "object",
+      "title": "LSP",
+      "properties": {
+        "override": {
+          "type": "object",
+          "title": "Override builtins",
+          "properties": {
+            "vim.lsp.util.convert_input_to_markdown_lines": { "type": "boolean", "default": true },
+            "vim.lsp.util.stylize_markdown": { "type": "boolean", "default": true },
+            "cmp.entry.get_documentation": { "type": "boolean", "default": true }
+          }
+        },
+        "hover": {
+          "type": "object",
+          "title": "Hover",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "silent": { "type": "boolean", "default": false },
+            "view": { "type": "string", "default": "hover" }
+          }
+        },
+        "signature": {
+          "type": "object",
+          "title": "Signature help",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "auto_open": { "type": "boolean", "default": true },
+            "view": { "type": "string", "default": "popover" }
+          }
+        }
+      }
+    },
+    "presets": {
+      "type": "object",
+      "title": "Presets",
+      "properties": {
+        "bottom_padding": { "type": "boolean", "title": "Bottom padding", "default": true },
+        "command_palette": { "type": "select", "enum": ["cmdline_popup", "cmdline"], "default": "cmdline_popup" },
+        "long_message_to_split": { "type": "boolean", "default": true },
+        "inc_rename": { "type": "boolean", "default": false },
+        "lsp_doc_border": { "type": "boolean", "default": false }
+      }
+    },
+    "lazy_load": { "type": "boolean", "title": "Lazy load", "default": true }
+  }
+}

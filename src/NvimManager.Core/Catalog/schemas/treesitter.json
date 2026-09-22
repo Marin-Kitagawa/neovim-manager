@@ -1,0 +1,80 @@
+{
+  "type": "object",
+  "properties": {
+    "auto_install": {
+      "type": "boolean",
+      "title": "Auto install",
+      "description": "Install missing parsers when entering the first buffer.",
+      "default": false
+    },
+    "sync_install": {
+      "type": "boolean",
+      "title": "Sync install",
+      "description": "Install all listed parsers synchronously (blocks startup).",
+      "default": false
+    },
+    "ensure_installed": {
+      "type": "array",
+      "title": "Ensure installed",
+      "items": { "type": "string" },
+      "description": "Parser names to make sure are installed, e.g. \"lua\", \"javascript\", \"rust\". Use \"all\" for everything."
+    },
+    "ignore_install": {
+      "type": "array",
+      "title": "Ignore install",
+      "items": { "type": "string" },
+      "description": "Parser names that are never auto-installed."
+    },
+    "highlight": {
+      "type": "object",
+      "title": "Highlight",
+      "properties": {
+        "enable": { "type": "boolean", "title": "Enabled", "default": true },
+        "additional_vim_regex_highlighting": { "type": "boolean", "default": false },
+        "disable": {
+          "type": "array",
+          "title": "Disabled languages",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "indent": {
+      "type": "object",
+      "title": "Indentation",
+      "properties": {
+        "enable": { "type": "boolean", "title": "Enabled", "default": false }
+      }
+    },
+    "autotag": {
+      "type": "object",
+      "title": "HTML autotag",
+      "properties": {
+        "enable": { "type": "boolean", "title": "Enabled", "default": false }
+      }
+    },
+    "matchup": {
+      "type": "object",
+      "title": "Matchup",
+      "properties": {
+        "enable": { "type": "boolean", "title": "Enabled", "default": false }
+      }
+    },
+    "incremental_selection": {
+      "type": "object",
+      "title": "Incremental selection",
+      "properties": {
+        "enable": { "type": "boolean", "title": "Enabled", "default": false },
+        "keymaps": {
+          "type": "lua",
+          "title": "Keymaps",
+          "description": "Table such as { init_selection = \"<CR>\", node_incremental = \"<TAB>\", scope_incremental = \"<S-TAB>\", node_decremental = \"<BS>\" }"
+        }
+      }
+    },
+    "textobjects": {
+      "type": "lua",
+      "title": "Text objects",
+      "description": "Config for nvim-treesitter-textobjects. Requires that sub-plugin installed."
+    }
+  }
+}

@@ -1,0 +1,386 @@
+= NvimManager
+:toc: left
+:toclevels: 3
+:icons: font
+
+A cozy desktop companion for managing Neovim plugins — browse a curated
+community store, install and update plugins with one click, and configure
+them through friendly forms that generate real `lazy.nvim` specs.
+Built with https://avaloniaui.net/[Avalonia UI] on .NET 10 (Windows).
+
+== Features
+
+* **Community store** — 60 curated plugins across 6 categories
+  (Colorscheme, Completion & LSP, Editing, File & Search, Git & Tools,
+  UI & Statusline) with search, category filter, featured toggle, and
+  live star counts enriched from GitHub (cached for 12 hours).
+* **Install / update / uninstall** — shallow git clones straight into your
+  plugin directory, fast-forward updates, per-plugin update checks, and
+  update-all in one click.
+* **Detects what you already have** — scans every common plugin manager
+  layout (see <<supported-managers>>), reads each checkout's git metadata
+  directly from its `.git` directory (no slow per-plugin git processes),
+  and matches repos against the catalog via `lazy-lock.json`, git remotes,
+  or directory names.
+* **Schema-driven configuration** — 13 bundled JSON schemas render as typed
+  forms (toggles, numbers, text, dropdowns, multi-selects, string/number
+  lists, Lua snippets, nested tables) plus a raw-opts override, lazy-loading
+  options (events, commands, filetypes, keys, build, dev, priority, branch,
+  version), raw `config`/`init` Lua hooks, and a generated-spec preview.
+* **Managed config writer** — writes a complete `lazy.nvim` setup
+  (`plugins.lua`, bootstrap module, `init.lua`) without ever touching
+  unrelated parts of an existing config.
+* **Four cozy themes** — Cream (default), Midnight Plum, Blush Pastel, and
+  Garden Sage, switchable live from Settings and remembered across restarts.
+* **Custom window chrome** — acrylic blur, ambient gradient glows, glass
+  sidebar navigation with cross-fade page transitions, and an authored
+  vector icon set plus a sprout mascot (no emoji icons anywhere).
+
+== Requirements
+
+* Windows 10/11 (the app targets `WinExe`).
+* https://git-scm.com/[git] on `PATH` (the app also probes the standard
+  install locations) — required for install, update, and update checks.
+* Neovim — optional for browsing, required for paths, config writing, and
+  actually using the plugins. XDG variables (`XDG_CONFIG_HOME`,
+  `XDG_DATA_HOME`, `XDG_CACHE_HOME`) are honored where applicable.
+* .NET 10 SDK — only needed to build from source.
+
+== Quick start
+
+[source,powershell]
+----
+# From the repository root:
+dotnet build NvimManager.slnx -c Release
+
+# Run it (note the assembly name):
+src\NvimManager.App\bin\Release\net10.0\NvimManager.exe
+# or: dotnet src\NvimManager.App\bin\Release\net10.0\NvimManager.dll
+----
+
+NOTE: The assembly is named `NvimManager`, not `NvimManager.App`
+(`RootNamespace` and `AssemblyName` differ in the project file).
+
+On first launch:
+
+1. Open *Settings* and confirm the detected Neovim paths
+   (config dir, data dir, lazy root, `init.lua`, git).
+2. Back on *Store*, press *Refresh* to load the catalog
+   (star counts enrich from GitHub in the background).
+3. Install something, open its *Configure* page, tweak options, and press
+   *Save & write managed config*.
+
+== Pages
+
+=== Store
+
+The plugin marketplace: a search box (matches name, repo, tags, and
+description), a category dropdown, a *Featured* chip, and a *Refresh*
+button. Each card shows the plugin name, repo, description, tags,
+category, star count, and an installed/not-installed pill, with
+*Install* (accent), *Uninstall*, and *Configure* actions sized uniformly.
+The header carries a headline and the Sprout mascot; the footer reports
+the catalog size.
+
+Selecting a card (or pressing *Configure*) opens the plugin detail page.
+
+=== Installed
+
+Every plugin found on disk across all supported managers, each with a
+manager badge (e.g. `lazy.nvim`, `packer.nvim · opt`), commit/tag info,
+an *Update available* pill when the local checkout trails `origin/HEAD`,
+and *Update*, *Open folder*, and *Uninstall* actions.
+
+* *Refresh* rescans the filesystem (fast: pure file reads, no git processes).
+* *Check for updates* compares each checkout's `HEAD` against the locally
+  known `origin/HEAD` — exactly what a bare `rev-parse` would report, so
+  run `git fetch` first if you want fresh results. No fetching is done
+  automatically.
+* *Update all* fast-forward pulls every git-backed plugin.
+* The status line summarizes the total plus a per-manager breakdown
+  (e.g. `128 plugin(s) · lazy.nvim 96 · packer.nvim 20 · vim-plug 12`).
+  With an empty library it lists every supported manager instead.
+
+=== Plugin detail
+
+* Header with back navigation, category, stars, repo, tags, description,
+  and Install / Update / Uninstall / Refresh-metadata / Open-folder actions.
+* *Lazy loading options* — enabled, lazy, version, branch, priority,
+  dev-mode, one-per-line events/commands/filetypes, raw keys spec, build.
+* *Plugin configuration* — the schema form for the 13 supported plugins,
+  or a hint when a plugin ships no schema, plus a raw-opts Lua override.
+* *Raw Lua (advanced)* — full `config` function body and `init` hook.
+* *Generated spec preview* — renders the exact `lazy.nvim` table that
+  will be written, on demand.
+* *Save & write managed config* persists everything and regenerates the
+  managed files (progress indicator while busy, status line after).
+
+=== Settings
+
+* *Appearance* — theme picker (Cream, Midnight Plum, Blush Pastel,
+  Garden Sage). Applies instantly and persists to `app.json`.
+* *Neovim paths* — read-only view of the resolved config/data/lazy-root/
+  `init.lua`/git locations.
+* Actions to open the config dir, lazy root, or `init.lua` in Explorer,
+  plus *Write managed config* with a live status line.
+* A *How the generated config works* panel documenting the three files
+  and the foreign-`init.lua` policy (see below).
+
+[#supported-managers]
+== Supported plugin managers
+
+Detection covers all of these layouts (deduplicated by directory, so a
+plugin reachable two ways is listed once). Framework distributions built
+on top of them are covered through their underlying manager.
+
+[cols="1,2",options="header"]
+|===
+|Manager | Locations scanned
+
+|lazy.nvim
+|`<data>/lazy` (git checkouts; `lazy.nvim` itself excluded).
+Also the engine behind LazyVim and NvChad.
+
+|AstroNvim v4+
+|Detected via config markers (`lua/lazy_setup.lua`,
+`lua/plugins/astro{core,ui}.lua`, or astronvim references in
+`init.lua`). Plugins live in the standard lazy root; installs and saves
+write per-plugin specs to `lua/plugins/<name>.lua` (owned files only,
+guarded by the managed marker) instead of the `nvimmanager` bundle,
+whose bootstrap would fight AstroNvim's own setup. Shown as
+`AstroNvim config detected` in the UI.
+
+|packer.nvim
+|`<data>/site/pack/packer/{start,opt}` (also under config dir,
+`~/.vim`, and LunarVim data).
+
+|paq-nvim
+|`pack/paqs/{start,opt}` in the same roots.
+
+|pckr.nvim
+|`pack/pckr/{start,opt}` in the same roots.
+
+|mini.deps
+|`pack/deps/{start,opt}` in the same roots.
+
+|vim.pack (Neovim 0.12+)
+|`pack/core/{start,opt}` in the same roots.
+
+|Native `:packadd` packages
+|Any other `pack/<name>/{start,opt}` in the same roots, plus
+`<config>/pack`.
+
+|minpac
+|`pack/minpac/{start,opt}`.
+
+|vim-plug
+|`<data>/plugged` and `~/.vim/plugged` (including non-git installs).
+
+|dein.vim
+|`~/.cache/dein/repos/github.com/<owner>/<repo>` and the
+`vimfiles` cache base; nested owner/repo paths resolve to exact
+`owner/repo` ids. Also `~/.SpaceVim/bundle` (SpaceVim).
+
+|LunarVim
+|`~/.local/share/lunarvim/lazy` and `.../site/pack`.
+
+|rocks.nvim
+|`<data>/rocks/lib/luarocks/rocks-5.1/*`, with the
+`-<version>-<revision>` suffix stripped for display
+(e.g. `telescope.nvim-0.1.8-1` → `telescope.nvim`).
+
+|Vundle / pathogen / NeoBundle
+|`~/.vim/bundle` and `<config>/bundle`.
+|===
+
+Repo identity resolution order per plugin: `lazy-lock.json` mapping (only
+entries shaped as `owner/repo`; bare-name keys, as seen in some AstroNvim
+lockfiles, are ignored) → git `remote.origin` URL (https, ssh,
+`git@host:` forms; `github.com` `owner/repo` matched exactly against the
+catalog) → dein path-derived `owner/repo` → catalog match by directory
+name → `?/<name>` fallback (shown as "Not in the community store").
+
+Update and Uninstall always operate on the discovered directory itself
+(never a derived path), and Uninstall refuses any directory that is not
+directly inside a known plugin container.
+
+== Managed config
+
+Pressing *Save & write managed config* (detail page) or
+*Write managed config* (Settings) generates the setup from the catalog
+plus your saved per-plugin settings:
+
+* `lua/nvimmanager/plugins.lua` — the plugin spec table.
+* `lua/nvimmanager.lua` — `lazy.nvim` bootstrap + `setup()` call.
+* `init.lua` — created only when missing or when it already carries the
+  marker `-- GENERATED BY NVIMMANAGER -- DO NOT EDIT MANUALLY.`
+
+An existing foreign `init.lua` is never overwritten; add
+`require("nvimmanager")` to it to activate the managed setup.
+
+AstroNvim configs take a different path: since AstroNvim owns its own
+`lazy.nvim` bootstrap, the app skips the `nvimmanager` bundle entirely
+and instead writes one spec file per configured plugin to
+`lua/plugins/<name>.lua` (regenerated on every save; removed when the
+plugin is disabled or uninstalled). Only files carrying the managed
+marker are ever written or deleted — your own spec files are untouched.
+
+== Themes
+
+Four palettes ship as custom Avalonia theme variants and share one key
+set, so every control re-skins without code changes:
+
+[cols="1,2",options="header"]
+|===
+|Theme | Feel
+
+|Cream (default)
+|Warm storybook light theme, cocoa ink, soft white cards.
+
+|Midnight Plum
+|Cozy dark frosted glass, plum-mauve ground, rose accents.
+
+|Blush Pastel
+|Pink-tinted light theme with lavender shadows.
+
+|Garden Sage
+|Green-tinted light theme, moss ink, moss-to-honey primary buttons.
+|===
+
+The picker lives in Settings → Appearance; the choice is stored in
+`%LOCALAPPDATA%\NvimManager\app.json` and applied before the main
+window is created. Design tokens and component rules are documented in
+`DESIGN.md`.
+
+== Data locations
+
+The app never writes inside your Neovim config except for the three
+managed files above. Its own state lives under
+`%LOCALAPPDATA%\NvimManager\`:
+
+[cols="1,2",options="header"]
+|===
+|File | Contents
+
+|`settings.json`
+|Per-plugin settings (options, lazy flags, raw Lua), keyed by repo.
+
+|`app.json`
+|App preferences (currently: selected theme).
+
+|`github-cache.json`
+|Enriched GitHub metadata (stars, descriptions), 12-hour TTL.
+|===
+
+Neovim paths resolve XDG-style: `XDG_CONFIG_HOME` / `XDG_DATA_HOME`
+first, then platform defaults — config `%LOCALAPPDATA%\nvim` and data
+`%LOCALAPPDATA%\nvim-data` on Windows (matching Neovim's own
+`stdpath()`), `~/.config/nvim` and `~/.local/share/nvim` elsewhere.
+The lazy root is `<data>/lazy`. The Settings page always shows the exact
+resolved values on your machine.
+
+NOTE: Versions before this fix used `%LOCALAPPDATA%\nvim` as the data
+dir on Windows. If you installed plugins with one of those builds, move
+the contents of `%LOCALAPPDATA%\nvim\lazy` to
+`%LOCALAPPDATA%\nvim-data\lazy` so both Neovim and this app see them.
+
+== Project layout
+
+----
+NvimManager.slnx
+src/
+  NvimManager.Core/            # UI-independent logic (net10.0)
+    Catalog/                   # community-catalog.json (60 plugins) + 13 schemas
+    Lua/                       # LuaWriter, LuaTable, LuaOptionsBuilder
+    Models/                    # CatalogEntry, NvimPaths, PluginSettings, ...
+    Services/
+      CatalogService.cs        # embedded catalog + schema loading + search
+      StoreService.cs          # install/update/uninstall/list + spec building
+      PluginDiscoveryService.cs# multi-manager filesystem scan + dedupe
+      GitDirReader.cs          # .git parsing (HEAD/refs/remotes/tags), no processes
+      GitService.cs            # git CLI wrapper (clone/pull/fetch/rev-parse)
+      GitHubEnrichmentService.cs # stars/descriptions via GitHub API + cache
+      LazyConfigGenerator.cs   # renders plugins.lua / bootstrap / init.lua
+      NeovimLocator.cs         # XDG-aware path resolution
+      SchemaParser.cs          # JSON schema -> form model
+      SettingsStore.cs         # settings.json persistence
+      ThemeManager.cs  (App)   # variant switching + app.json (see src/NvimManager.App)
+  NvimManager.App/             # Avalonia desktop UI (WinExe, net10.0)
+    Views/                     # MainWindow, StoreView, InstalledView,
+                               # PluginDetailView, SettingsView, ConfigFieldsView,
+                               # MascotView (+ code-behind)
+    ViewModels/                # matching VMs (CommunityToolkit.Mvvm)
+    Themes/                    # Themes.axaml (4 variants), GlassStyles.axaml,
+                               # Icons.axaml (authored vector icons)
+    Converters/                # NullableIntConverter
+    App.axaml(.cs)             # DataTemplates, theme merge, startup
+    ThemeManager.cs            # ApplyTheme/Load/Save + ThemeVariant singletons
+    Icons.cs                   # typed access to theme icon geometries
+    AppServices.cs             # service graph composition
+tests/
+  NvimManager.Core.Tests/      # 42 xUnit tests (catalog, Lua, schemas,
+                               # discovery, git-dir parsing, config gen)
+----
+
+Key design points:
+
+* `StoreService` is the single façade the UI talks to; `BuildSpecs()`
+  only covers the lazy.nvim-managed set (foreign-manager plugins are
+  listed and maintained, but not code-generated).
+* `AvaloniaUseCompiledBindingsByDefault` is `false`: bindings are
+  reflection-based, no `x:DataType` needed in XAML.
+* Theme resources are `{DynamicResource}` everywhere across XAML so a
+  variant switch re-resolves app-wide. One exception:
+  `Converter={StaticResource NullableIntConverter}` inside a binding,
+  which the binding engine requires.
+
+== Development
+
+[source,powershell]
+----
+# SDK prefix if dotnet is not on PATH (adjust to your install):
+$env:PATH='C:\Users\Ahri\Software\dotnet10.0.401;' + $env:PATH
+
+dotnet build NvimManager.slnx -c Debug -t:Rebuild
+dotnet test NvimManager.slnx -c Debug
+----
+
+Notes for contributors:
+
+* After editing XAML, prefer `-t:Rebuild`: the Avalonia XAML compile step
+  only runs when CoreCompile runs, so a purely incremental build can leave
+  stale compiled XAML behind.
+* Avalonia 11 specifics observed in this codebase: bind item lists with
+  `ItemsSource`, never `Items` (AVLN3000); every `Grid.Row` reference needs
+  an explicit `RowDefinitions` entry; `Path` exposes `StrokeJoin` (not
+  `StrokeLineJoin`); `TextBox` has no `WatermarkVisible` instance property;
+  merge file resource dictionaries with `MergeResourceInclude` (there is no
+  `ResourceDictionary.Source`); reference theme resources with
+  `{DynamicResource}` across files.
+* Static C# singletons used as XAML keys (e.g. `ThemeVariant` instances)
+  must be declared *before* any static member that reads them — C# runs
+  static initializers in textual order.
+* The `GitHubEnrichmentService` user-agent must stay a valid header token
+  (`new ProductInfoHeaderValue("NvimManager", "1")`).
+
+== Troubleshooting
+
+* **Build fails with MSB3027/MSB3021 (file locked by NvimManager):**
+  an old app instance is still running and locking the output DLLs.
+  Stop it (`Stop-Process -Name NvimManager`) and rebuild.
+* **App shows no plugins but Neovim has many:** open Installed and read
+  the status line — with an empty library it lists every supported
+  manager. If your layout is exotic (custom `plug#begin()` dir, custom
+  `packpath`), it is not covered yet.
+* **Stars/descriptions missing:** GitHub enrichment is rate-limited;
+  metadata caches for 12 hours and backfills on *Refresh* /
+  *Refresh metadata*.
+* **Update check says everything is up to date:** the check compares
+  `HEAD` against the locally known `origin/HEAD` without fetching.
+  Run `git fetch` (or update once) for fresh results.
+* **Theme or window looks stale after upgrading:** make sure no old
+  `NvimManager` process is still running from a previous build.
+
+== License
+
+No license file is included yet.

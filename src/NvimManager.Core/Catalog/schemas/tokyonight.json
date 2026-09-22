@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "properties": {
+    "style": {
+      "type": "select",
+      "title": "Style",
+      "description": "The theme flavor to load.",
+      "enum": ["storm", "night", "day"],
+      "default": "storm"
+    },
+    "transparent": {
+      "type": "boolean",
+      "title": "Transparent background",
+      "default": false
+    },
+    "dim_inactive": {
+      "type": "boolean",
+      "title": "Dim inactive windows",
+      "default": false
+    },
+    "lualine_bold": {
+      "type": "boolean",
+      "title": "Bold lualine sections",
+      "default": false
+    },
+    "terminal_colors": {
+      "type": "boolean",
+      "title": "Apply theme to terminal",
+      "default": true
+    },
+    "styles": {
+      "type": "object",
+      "title": "Syntax styles",
+      "properties": {
+        "comments": { "type": "select", "enum": ["italic", "bold", "NONE"] },
+        "conditionals": { "type": "select", "enum": ["italic", "bold", "NONE"] },
+        "functions": { "type": "select", "enum": ["italic", "bold", "NONE"] },
+        "keywords": { "type": "select", "enum": ["italic", "bold", "NONE"] },
+        "numbers": { "type": "select", "enum": ["italic", "bold", "NONE"] },
+        "strings": { "type": "select", "enum": ["italic", "bold", "NONE"] }
+      }
+    },
+    "on_colors": {
+      "type": "lua",
+      "title": "Override colors",
+      "description": "Lua table merged over the palette, e.g. { bg = \"#000000\" }"
+    },
+    "on_highlights": {
+      "type": "lua",
+      "title": "Override highlights",
+      "description": "Function(highlights, colors) to redefine highlight groups."
+    }
+  }
+}

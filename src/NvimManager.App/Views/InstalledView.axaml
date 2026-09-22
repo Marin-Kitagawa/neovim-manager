@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NvimManager.App.Views.InstalledView">
+
+  <DockPanel Margin="22">
+
+    <StackPanel DockPanel.Dock="Top" Spacing="8" Margin="0,4,0,16">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <Button Content="Refresh" Command="{Binding RefreshCommand}" Classes="soft" />
+        <Button Content="Check for updates" Command="{Binding CheckUpdatesCommand}" Classes="soft" />
+        <Button Content="Update all" Command="{Binding UpdateAllCommand}" Classes="accent" />
+        <ProgressBar IsIndeterminate="True" Width="120" VerticalAlignment="Center"
+                     IsVisible="{Binding IsBusy}" Margin="8,0,0,0" />
+      </StackPanel>
+      <TextBlock Text="{Binding StatusText}" FontSize="12"
+                 Foreground="{DynamicResource Brush.Fg.Tertiary}" TextWrapping="Wrap" />
+    </StackPanel>
+
+    <ListBox ItemsSource="{Binding Items}" Background="Transparent"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Border Classes="glass" Margin="2,4" Padding="16,13">
+            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="16">
+              <StackPanel Grid.Column="0" Spacing="3">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                  <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14" />
+                  <TextBlock Text="{Binding Repo}" VerticalAlignment="Center"
+                             Foreground="{DynamicResource Brush.Fg.Tertiary}" FontSize="12" />
+                  <Border Classes="pill" Background="{DynamicResource Brush.Glass.Inset}"
+                          BorderBrush="{DynamicResource Brush.Glass.BorderInset}" BorderThickness="1"
+                          Padding="8,2" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding SourceLabel}" FontSize="11"
+                               Foreground="{DynamicResource Brush.Lavender}" />
+                  </Border>
+                </StackPanel>
+                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Opacity="0.8" MaxWidth="600" />
+                <StackPanel Orientation="Horizontal" Spacing="12" Margin="0,4,0,0">
+                  <TextBlock Text="{Binding Commit}" FontSize="11"
+                             FontFamily="Consolas, Cascadia Code, monospace"
+                             Foreground="{DynamicResource Brush.Fg.Secondary}" />
+                  <Border Classes="pill" Background="#33F0C07A" BorderBrush="#66F0C07A" BorderThickness="1"
+                          Padding="8,2" IsVisible="{Binding HasUpdate}">
+                    <TextBlock Text="Update available" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{DynamicResource Brush.Honey}" />
+                  </Border>
+                </StackPanel>
+              </StackPanel>
+              <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="6" HorizontalAlignment="Right">
+                <Button Content="Update" Classes="accent" Command="{Binding UpdateCommand}" Width="108"
+                        IsVisible="{Binding HasUpdate}" />
+                <Button Content="Open folder" Classes="soft" Command="{Binding OpenFolderCommand}" Width="108" />
+              </StackPanel>
+              <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="0,0,0,0">
+                <Button Content="Uninstall" Classes="soft" Command="{Binding UninstallCommand}" Width="108"
+                        Foreground="{DynamicResource Brush.Coral}" />
+              </StackPanel>
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+  </DockPanel>
+</UserControl>

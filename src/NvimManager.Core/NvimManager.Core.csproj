@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>NvimManager.Core</RootNamespace>
+    <AssemblyName>NvimManager.Core</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Catalog\community-catalog.json" />
+    <EmbeddedResource Include="Catalog\schemas\*.json" />
+  </ItemGroup>
+
+</Project>

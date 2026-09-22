@@ -1,0 +1,113 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="using:NvimManager.App.Views"
+        mc:Ignorable="d"
+        x:Class="NvimManager.App.Views.MainWindow"
+        Title="NvimManager"
+        Width="1240" Height="820" MinWidth="980" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        TransparencyLevelHint="AcrylicBlur"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1">
+
+  <Grid>
+
+    <!-- Ambient ground + cozy glows behind the glass. -->
+    <Border Background="{DynamicResource Brush.Ambient}" IsHitTestVisible="False" />
+    <Border Background="{DynamicResource Brush.Glow.Top}" IsHitTestVisible="False" />
+    <Border Background="{DynamicResource Brush.Glow.Bottom}" IsHitTestVisible="False" />
+
+    <Grid RowDefinitions="40,*" Margin="1">
+
+      <!-- Custom chrome / title bar -->
+      <Border Grid.Row="0" BorderBrush="{DynamicResource Brush.Glass.BorderInset}" BorderThickness="0,0,0,1">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+
+          <Border Grid.Column="0" Padding="14,0,0,0" Background="Transparent"
+                  PointerPressed="OnTitleBarPressed" Cursor="SizeAll">
+            <StackPanel Orientation="Horizontal" Spacing="9" VerticalAlignment="Center">
+              <Border Classes="pill" Width="26" Height="26" CornerRadius="9"
+                      Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center">
+                <Path Data="{DynamicResource Icon.Heart}" Stroke="#2A101B" StrokeThickness="1.5"
+                      Fill="Transparent" StrokeLineCap="Round" StrokeJoin="Round"
+                      Width="13" Height="13" Stretch="Uniform" />
+              </Border>
+              <TextBlock Text="NvimManager" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
+            </StackPanel>
+          </Border>
+
+          <Border Grid.Column="1" Background="Transparent" PointerPressed="OnTitleBarPressed" Cursor="SizeAll">
+            <TextBlock Text="{Binding CurrentPage.Title}"
+                       Foreground="{DynamicResource Brush.Fg.Tertiary}"
+                       FontSize="12" VerticalAlignment="Center" IsHitTestVisible="False"
+                       Margin="14,0,0,0" />
+          </Border>
+
+          <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="2" Margin="0,4,6,4">
+            <Button Classes="caption" Click="OnMinimizeClick" ToolTip.Tip="Minimize">
+              <Path Data="{DynamicResource Icon.Min}" Fill="{DynamicResource Brush.Fg.Secondary}"
+                    Width="11" Height="11" Stretch="Uniform" />
+            </Button>
+            <Button Classes="caption" Click="OnMaximizeClick" ToolTip.Tip="Maximize">
+              <Path Data="{DynamicResource Icon.Max}" Stroke="{DynamicResource Brush.Fg.Secondary}" StrokeThickness="1.3"
+                    StrokeJoin="Round" Width="11" Height="11" Stretch="Uniform" />
+            </Button>
+            <Button Classes="caption close" Click="OnCloseClick" ToolTip.Tip="Close">
+              <Path Data="{DynamicResource Icon.Close}" Stroke="{DynamicResource Brush.Fg.Secondary}" StrokeThickness="1.4"
+                    StrokeLineCap="Round" Width="11" Height="11" Stretch="Uniform" />
+            </Button>
+          </StackPanel>
+
+        </Grid>
+      </Border>
+
+      <Grid Grid.Row="1" ColumnDefinitions="232,*">
+
+        <!-- Glass sidebar -->
+        <Border Grid.Column="0" BorderBrush="{DynamicResource Brush.Glass.BorderInset}" BorderThickness="0,0,1,0"
+                Background="{DynamicResource Brush.Glass}">
+          <DockPanel>
+            <views:MascotView DockPanel.Dock="Bottom" Width="72" Height="72"
+                              Margin="0,0,0,8" HorizontalAlignment="Center" />
+            <TextBlock DockPanel.Dock="Bottom" Text="lazy.nvim managed" FontSize="11"
+                       Foreground="{DynamicResource Brush.Fg.Tertiary}" Margin="22,0,14,14" />
+            <!-- NOTE: selection is OneWay on purpose. The detail page sets
+                 CurrentPage to a NavItem that is not in Pages; a TwoWay
+                 binding would let the ListBox coerce it to null and wipe
+                 the content host. Sidebar clicks are forwarded below. -->
+            <ListBox ItemsSource="{Binding Pages}"
+                     SelectedItem="{Binding CurrentPage, Mode=OneWay}"
+                     SelectionChanged="OnNavSelectionChanged"
+                     Background="Transparent" BorderThickness="0" Margin="10,14,10,0">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <StackPanel Orientation="Horizontal" Spacing="11" Margin="6,2">
+                    <Path Data="{Binding Icon}" Stroke="{DynamicResource Brush.Fg.Secondary}"
+                          StrokeThickness="1.5" Fill="Transparent" StrokeLineCap="Round" StrokeJoin="Round"
+                          Width="15" Height="15" Stretch="Uniform" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Title}" FontSize="14" VerticalAlignment="Center" />
+                  </StackPanel>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </DockPanel>
+        </Border>
+
+        <!-- Page host with a soft cross-fade -->
+        <Border Grid.Column="1" Margin="0,0,0,0">
+          <TransitioningContentControl Content="{Binding CurrentPage.ViewModel}" Margin="0,0,0,0">
+            <TransitioningContentControl.PageTransition>
+              <CrossFade Duration="0:0:0.22" />
+            </TransitioningContentControl.PageTransition>
+          </TransitioningContentControl>
+        </Border>
+
+      </Grid>
+    </Grid>
+
+  </Grid>
+</Window>

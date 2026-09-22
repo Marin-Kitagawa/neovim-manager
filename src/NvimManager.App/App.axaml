@@ -1,0 +1,167 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:app="using:NvimManager.App"
+             xmlns:vm="using:NvimManager.App.ViewModels"
+             xmlns:views="using:NvimManager.App.Views"
+             xmlns:converters="using:NvimManager.App.Converters"
+             x:Class="NvimManager.App.App">
+
+  <Application.DataTemplates>
+    <!-- Page views -->
+    <DataTemplate DataType="{x:Type vm:StoreViewModel}">
+      <views:StoreView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:PluginDetailViewModel}">
+      <views:PluginDetailView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:InstalledViewModel}">
+      <views:InstalledView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+      <views:SettingsView />
+    </DataTemplate>
+
+    <!-- Schema form field editors -->
+    <DataTemplate DataType="{x:Type vm:BooleanFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <CheckBox Grid.Column="1" IsChecked="{Binding Value, Mode=TwoWay}" VerticalAlignment="Center" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:IntegerFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <NumericUpDown Grid.Column="1" Value="{Binding Value, Mode=TwoWay}" Increment="1" VerticalAlignment="Center"
+                       HorizontalAlignment="Left" Width="160" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:NumberFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <NumericUpDown Grid.Column="1" Value="{Binding Value, Mode=TwoWay}" Increment="0.05" FormatString="0.##"
+                       VerticalAlignment="Center" HorizontalAlignment="Left" Width="160" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:StringFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" VerticalAlignment="Center" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:SelectFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <ComboBox Grid.Column="1" ItemsSource="{Binding Options}" SelectedItem="{Binding Value, Mode=TwoWay}"
+                  VerticalAlignment="Center" HorizontalAlignment="Left" MinWidth="180" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:MultiSelectFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+          <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <CheckBox Content="{Binding Label}" IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:StringListFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Top">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" AcceptsReturn="True" MinHeight="44"
+                 FontFamily="Consolas, Cascadia Code, monospace" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:NumberListFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Top">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" AcceptsReturn="True" MinHeight="44"
+                 FontFamily="Consolas, Cascadia Code, monospace" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:LuaFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Top">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <TextBox Grid.Column="1" Text="{Binding Value, Mode=TwoWay}" AcceptsReturn="True" MinHeight="60"
+                 FontFamily="Consolas, Cascadia Code, monospace" TextWrapping="NoWrap"
+                 CaretBrush="White" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:TableFieldViewModel}">
+      <Grid ColumnDefinitions="230,*" Margin="0,3">
+        <StackPanel Grid.Column="0" VerticalAlignment="Top">
+          <TextBlock Text="{Binding Label}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+          <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11" Opacity="0.65" MaxWidth="220" />
+        </StackPanel>
+        <Border Grid.Column="1" BorderThickness="1"
+                BorderBrush="{DynamicResource ThemeBorderMidBrush}"
+                CornerRadius="4" Padding="8,4" Margin="0,2">
+          <StackPanel>
+            <ItemsControl ItemsSource="{Binding Children}" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </DataTemplate>
+  </Application.DataTemplates>
+
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://NvimManager/Themes/GlassStyles.axaml" />
+  </Application.Styles>
+
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <MergeResourceInclude Source="avares://NvimManager/Themes/Themes.axaml" />
+        <MergeResourceInclude Source="avares://NvimManager/Themes/Icons.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+    <converters:NullableIntConverter x:Key="NullableIntConverter" />
+  </Application.Resources>
+
+</Application>

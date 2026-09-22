@@ -1,0 +1,54 @@
+{
+  "type": "object",
+  "properties": {
+    "signs": {
+      "type": "object",
+      "title": "Signs",
+      "properties": {
+        "add": { "type": "boolean", "default": true },
+        "change": { "type": "boolean", "default": true },
+        "delete": { "type": "boolean", "default": true },
+        "topdelete": { "type": "boolean", "default": true },
+        "changedelete": { "type": "boolean", "default": true }
+      }
+    },
+    "signcolumn": {
+      "type": "boolean",
+      "title": "Signcolumn priority",
+      "default": true
+    },
+    "numhl": { "type": "boolean", "title": "Line number highlight", "default": false },
+    "linehl": { "type": "boolean", "title": "Line highlight", "default": false },
+    "word_diff": { "type": "boolean", "title": "Word diff", "default": false },
+    "watch_gitdir": {
+      "type": "object",
+      "title": "Watch gitdir",
+      "properties": {
+        "interval": { "type": "integer", "title": "Interval (ms)", "default": 1000 },
+        "follow_files": { "type": "boolean", "default": true }
+      }
+    },
+    "current_line_blame": {
+      "type": "boolean",
+      "title": "Current line blame",
+      "default": false
+    },
+    "current_line_blame_opts": {
+      "type": "object",
+      "title": "Blame opts",
+      "properties": {
+        "virt_text": { "type": "boolean", "title": "Virtual text", "default": true },
+        "virt_text_pos": { "type": "select", "enum": ["eol", "overlay", "right_align"], "default": "eol" },
+        "delay": { "type": "integer", "title": "Delay (ms)", "default": 700 },
+        "ignore_whitespace": { "type": "boolean", "default": false }
+      }
+    },
+    "sign_priority": { "type": "integer", "title": "Sign priority", "default": 6 },
+    "update_debounce": { "type": "integer", "title": "Update debounce (ms)", "default": 100 },
+    "on_attach": {
+      "type": "lua",
+      "title": "On attach",
+      "description": "Function to attach keymaps, receives (bufnr)."
+    }
+  }
+}

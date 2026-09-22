@@ -1,0 +1,342 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:app="using:NvimManager.App">
+
+  <!-- Cozy palettes as theme variants. Merged from App.axaml; switching
+       RequestedThemeVariant re-resolves every DynamicResource app-wide. -->
+  <ResourceDictionary.ThemeDictionaries>
+
+    <ResourceDictionary x:Key="{x:Static app:ThemeManager.CreamVariant}">
+      <Color x:Key="Ground.Base">#FAF4E8</Color>
+      <Color x:Key="Ground.Warm">#F3EAD9</Color>
+      <Color x:Key="Glow.Rose">#F0D9C4</Color>
+      <Color x:Key="Glow.Lavender">#E3E4CF</Color>
+      <Color x:Key="Fg.Primary">#4A3F35</Color>
+      <Color x:Key="Fg.Secondary">#7A6C5D</Color>
+      <Color x:Key="Fg.Tertiary">#A89A86</Color>
+      <Color x:Key="Glass.Fill">#BFFFFFFF</Color>
+      <Color x:Key="Glass.Fill.Strong">#D9FFFFFF</Color>
+      <Color x:Key="Glass.Fill.Hover">#FFFFFFFF</Color>
+      <Color x:Key="Glass.Fill.Inset">#0F4A3F35</Color>
+      <Color x:Key="Glass.Fill.InsetHover">#1A4A3F35</Color>
+      <Color x:Key="Glass.Border">#334A3F35</Color>
+      <Color x:Key="Glass.Border.Strong">#4D4A3F35</Color>
+      <Color x:Key="Glass.Border.Inset">#244A3F35</Color>
+      <Color x:Key="Accent.Rose">#C65D7B</Color>
+      <Color x:Key="Accent.Rose.Deep">#A84462</Color>
+      <Color x:Key="Accent.Lavender">#8A76B8</Color>
+      <Color x:Key="Accent.Honey">#B57E2E</Color>
+      <Color x:Key="Accent.Mint">#4F7F5E</Color>
+      <Color x:Key="Accent.Coral">#C05A48</Color>
+      <LinearGradientBrush x:Key="Brush.Ambient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#FBF6EC" />
+        <GradientStop Offset="0.55" Color="#F5EDDD" />
+        <GradientStop Offset="1" Color="#EFE5D2" />
+      </LinearGradientBrush>
+      <RadialGradientBrush x:Key="Brush.Glow.Top">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0" Color="#F7E3CE" />
+          <GradientStop Offset="1" Color="#00F7E3CE" />
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Center>0.08,0.0</RadialGradientBrush.Center>
+        <RadialGradientBrush.RadiusX>0.9</RadialGradientBrush.RadiusX>
+        <RadialGradientBrush.RadiusY>0.9</RadialGradientBrush.RadiusY>
+      </RadialGradientBrush>
+      <RadialGradientBrush x:Key="Brush.Glow.Bottom">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0" Color="#E7E4C8" />
+          <GradientStop Offset="1" Color="#00E7E4C8" />
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Center>1,1</RadialGradientBrush.Center>
+        <RadialGradientBrush.RadiusX>1.0</RadialGradientBrush.RadiusX>
+        <RadialGradientBrush.RadiusY>1.0</RadialGradientBrush.RadiusY>
+      </RadialGradientBrush>
+      <LinearGradientBrush x:Key="Brush.Accent" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#D97A93" />
+        <GradientStop Offset="1" Color="#9B85C9" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="Brush.Accent.Foreground" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#C65D7B" />
+        <GradientStop Offset="1" Color="#7E6BB0" />
+      </LinearGradientBrush>
+      <SolidColorBrush x:Key="Brush.Glass" Color="{DynamicResource Glass.Fill}" />
+      <SolidColorBrush x:Key="Brush.Glass.Strong" Color="{DynamicResource Glass.Fill.Strong}" />
+      <SolidColorBrush x:Key="Brush.Glass.Hover" Color="{DynamicResource Glass.Fill.Hover}" />
+      <SolidColorBrush x:Key="Brush.Glass.Inset" Color="{DynamicResource Glass.Fill.Inset}" />
+      <SolidColorBrush x:Key="Brush.Glass.InsetHover" Color="{DynamicResource Glass.Fill.InsetHover}" />
+      <SolidColorBrush x:Key="Brush.Glass.Border" Color="{DynamicResource Glass.Border}" />
+      <SolidColorBrush x:Key="Brush.Glass.BorderStrong" Color="{DynamicResource Glass.Border.Strong}" />
+      <SolidColorBrush x:Key="Brush.Glass.BorderInset" Color="{DynamicResource Glass.Border.Inset}" />
+      <SolidColorBrush x:Key="Brush.Fg" Color="{DynamicResource Fg.Primary}" />
+      <SolidColorBrush x:Key="Brush.Fg.Secondary" Color="{DynamicResource Fg.Secondary}" />
+      <SolidColorBrush x:Key="Brush.Fg.Tertiary" Color="{DynamicResource Fg.Tertiary}" />
+      <SolidColorBrush x:Key="Brush.Rose" Color="{DynamicResource Accent.Rose}" />
+      <SolidColorBrush x:Key="Brush.Rose.Deep" Color="{DynamicResource Accent.Rose.Deep}" />
+      <SolidColorBrush x:Key="Brush.Lavender" Color="{DynamicResource Accent.Lavender}" />
+      <SolidColorBrush x:Key="Brush.Honey" Color="{DynamicResource Accent.Honey}" />
+      <SolidColorBrush x:Key="Brush.Mint" Color="{DynamicResource Accent.Mint}" />
+      <SolidColorBrush x:Key="Brush.Coral" Color="{DynamicResource Accent.Coral}" />
+      <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource Ground.Base}" />
+      <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource Glass.Border}" />
+      <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource Glass.Border.Inset}" />
+      <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{DynamicResource Glass.Fill}" />
+      <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource Glass.Fill.Strong}" />
+      <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource Glass.Fill.Hover}" />
+      <SolidColorBrush x:Key="ThemeForegroundBrush" Color="{DynamicResource Fg.Primary}" />
+      <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource Fg.Secondary}" />
+      <SolidColorBrush x:Key="ThemeForegroundMidBrush" Color="{DynamicResource Fg.Tertiary}" />
+      <DropShadowEffect x:Key="Effect.Accent" BlurRadius="18" OffsetY="3" Color="#B3D97A93" Opacity="0.55" />
+      <DropShadowEffect x:Key="Effect.Panel" BlurRadius="28" OffsetY="6" Color="#594A3F35" Opacity="0.5" />
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="{x:Static app:ThemeManager.PlumVariant}">
+      <Color x:Key="Ground.Base">#1A161D</Color>
+      <Color x:Key="Ground.Warm">#231C25</Color>
+      <Color x:Key="Glow.Rose">#3E2230</Color>
+      <Color x:Key="Glow.Lavender">#2E2540</Color>
+      <Color x:Key="Fg.Primary">#F7F0F3</Color>
+      <Color x:Key="Fg.Secondary">#C6B7C2</Color>
+      <Color x:Key="Fg.Tertiary">#998BA0</Color>
+      <Color x:Key="Glass.Fill">#11FFFFFF</Color>
+      <Color x:Key="Glass.Fill.Strong">#18FFFFFF</Color>
+      <Color x:Key="Glass.Fill.Hover">#26FFFFFF</Color>
+      <Color x:Key="Glass.Fill.Inset">#0A000000</Color>
+      <Color x:Key="Glass.Fill.InsetHover">#12000000</Color>
+      <Color x:Key="Glass.Border">#2AFFFFFF</Color>
+      <Color x:Key="Glass.Border.Strong">#3DFFFFFF</Color>
+      <Color x:Key="Glass.Border.Inset">#1AFFFFFF</Color>
+      <Color x:Key="Accent.Rose">#F4A7C3</Color>
+      <Color x:Key="Accent.Rose.Deep">#E27F9F</Color>
+      <Color x:Key="Accent.Lavender">#C3B1E1</Color>
+      <Color x:Key="Accent.Honey">#F0C07A</Color>
+      <Color x:Key="Accent.Mint">#9CD1AE</Color>
+      <Color x:Key="Accent.Coral">#F0938B</Color>
+      <LinearGradientBrush x:Key="Brush.Ambient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#2C2333" />
+        <GradientStop Offset="0.55" Color="#221B27" />
+        <GradientStop Offset="1" Color="#18141B" />
+      </LinearGradientBrush>
+      <RadialGradientBrush x:Key="Brush.Glow.Top">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0" Color="#4D2736" />
+          <GradientStop Offset="1" Color="#00222B33" />
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Center>0.08,0.0</RadialGradientBrush.Center>
+        <RadialGradientBrush.RadiusX>0.9</RadialGradientBrush.RadiusX>
+        <RadialGradientBrush.RadiusY>0.9</RadialGradientBrush.RadiusY>
+      </RadialGradientBrush>
+      <RadialGradientBrush x:Key="Brush.Glow.Bottom">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0" Color="#3A2E4E" />
+          <GradientStop Offset="1" Color="#003A2E4E" />
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Center>1,1</RadialGradientBrush.Center>
+        <RadialGradientBrush.RadiusX>1.0</RadialGradientBrush.RadiusX>
+        <RadialGradientBrush.RadiusY>1.0</RadialGradientBrush.RadiusY>
+      </RadialGradientBrush>
+      <LinearGradientBrush x:Key="Brush.Accent" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#EE94B5" />
+        <GradientStop Offset="1" Color="#A98FD4" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="Brush.Accent.Foreground" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#E27F9F" />
+        <GradientStop Offset="1" Color="#8E76BE" />
+      </LinearGradientBrush>
+      <SolidColorBrush x:Key="Brush.Glass" Color="{DynamicResource Glass.Fill}" />
+      <SolidColorBrush x:Key="Brush.Glass.Strong" Color="{DynamicResource Glass.Fill.Strong}" />
+      <SolidColorBrush x:Key="Brush.Glass.Hover" Color="{DynamicResource Glass.Fill.Hover}" />
+      <SolidColorBrush x:Key="Brush.Glass.Inset" Color="{DynamicResource Glass.Fill.Inset}" />
+      <SolidColorBrush x:Key="Brush.Glass.InsetHover" Color="{DynamicResource Glass.Fill.InsetHover}" />
+      <SolidColorBrush x:Key="Brush.Glass.Border" Color="{DynamicResource Glass.Border}" />
+      <SolidColorBrush x:Key="Brush.Glass.BorderStrong" Color="{DynamicResource Glass.Border.Strong}" />
+      <SolidColorBrush x:Key="Brush.Glass.BorderInset" Color="{DynamicResource Glass.Border.Inset}" />
+      <SolidColorBrush x:Key="Brush.Fg" Color="{DynamicResource Fg.Primary}" />
+      <SolidColorBrush x:Key="Brush.Fg.Secondary" Color="{DynamicResource Fg.Secondary}" />
+      <SolidColorBrush x:Key="Brush.Fg.Tertiary" Color="{DynamicResource Fg.Tertiary}" />
+      <SolidColorBrush x:Key="Brush.Rose" Color="{DynamicResource Accent.Rose}" />
+      <SolidColorBrush x:Key="Brush.Rose.Deep" Color="{DynamicResource Accent.Rose.Deep}" />
+      <SolidColorBrush x:Key="Brush.Lavender" Color="{DynamicResource Accent.Lavender}" />
+      <SolidColorBrush x:Key="Brush.Honey" Color="{DynamicResource Accent.Honey}" />
+      <SolidColorBrush x:Key="Brush.Mint" Color="{DynamicResource Accent.Mint}" />
+      <SolidColorBrush x:Key="Brush.Coral" Color="{DynamicResource Accent.Coral}" />
+      <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource Ground.Base}" />
+      <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource Glass.Border}" />
+      <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource Glass.Border.Inset}" />
+      <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{DynamicResource Glass.Fill}" />
+      <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource Glass.Fill.Strong}" />
+      <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource Glass.Fill.Hover}" />
+      <SolidColorBrush x:Key="ThemeForegroundBrush" Color="{DynamicResource Fg.Primary}" />
+      <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource Fg.Secondary}" />
+      <SolidColorBrush x:Key="ThemeForegroundMidBrush" Color="{DynamicResource Fg.Tertiary}" />
+      <DropShadowEffect x:Key="Effect.Accent" BlurRadius="18" OffsetY="3" Color="#B3EE94B5" Opacity="0.55" />
+      <DropShadowEffect x:Key="Effect.Panel" BlurRadius="28" OffsetY="6" Color="#40251E2C" Opacity="0.9" />
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="{x:Static app:ThemeManager.PastelVariant}">
+      <Color x:Key="Ground.Base">#FBF2F5</Color>
+      <Color x:Key="Ground.Warm">#F6E9EF</Color>
+      <Color x:Key="Glow.Rose">#F3D3DE</Color>
+      <Color x:Key="Glow.Lavender">#E2D6F0</Color>
+      <Color x:Key="Fg.Primary">#54404E</Color>
+      <Color x:Key="Fg.Secondary">#8A7284</Color>
+      <Color x:Key="Fg.Tertiary">#B39FAE</Color>
+      <Color x:Key="Glass.Fill">#BFFFFFFF</Color>
+      <Color x:Key="Glass.Fill.Strong">#D9FFFFFF</Color>
+      <Color x:Key="Glass.Fill.Hover">#FFFFFFFF</Color>
+      <Color x:Key="Glass.Fill.Inset">#0F54404E</Color>
+      <Color x:Key="Glass.Fill.InsetHover">#1A54404E</Color>
+      <Color x:Key="Glass.Border">#3354404E</Color>
+      <Color x:Key="Glass.Border.Strong">#4D54404E</Color>
+      <Color x:Key="Glass.Border.Inset">#2454404E</Color>
+      <Color x:Key="Accent.Rose">#D96C96</Color>
+      <Color x:Key="Accent.Rose.Deep">#B44A76</Color>
+      <Color x:Key="Accent.Lavender">#9B7ED0</Color>
+      <Color x:Key="Accent.Honey">#C08A3E</Color>
+      <Color x:Key="Accent.Mint">#5FA084</Color>
+      <Color x:Key="Accent.Coral">#D4695C</Color>
+      <LinearGradientBrush x:Key="Brush.Ambient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#FDF5F8" />
+        <GradientStop Offset="0.55" Color="#F8ECF1" />
+        <GradientStop Offset="1" Color="#F3E2E9" />
+      </LinearGradientBrush>
+      <RadialGradientBrush x:Key="Brush.Glow.Top">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0" Color="#F6D8E2" />
+          <GradientStop Offset="1" Color="#00F6D8E2" />
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Center>0.08,0.0</RadialGradientBrush.Center>
+        <RadialGradientBrush.RadiusX>0.9</RadialGradientBrush.RadiusX>
+        <RadialGradientBrush.RadiusY>0.9</RadialGradientBrush.RadiusY>
+      </RadialGradientBrush>
+      <RadialGradientBrush x:Key="Brush.Glow.Bottom">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0" Color="#E4D8F2" />
+          <GradientStop Offset="1" Color="#00E4D8F2" />
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Center>1,1</RadialGradientBrush.Center>
+        <RadialGradientBrush.RadiusX>1.0</RadialGradientBrush.RadiusX>
+        <RadialGradientBrush.RadiusY>1.0</RadialGradientBrush.RadiusY>
+      </RadialGradientBrush>
+      <LinearGradientBrush x:Key="Brush.Accent" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#E58AA8" />
+        <GradientStop Offset="1" Color="#A78BD4" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="Brush.Accent.Foreground" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#D96C96" />
+        <GradientStop Offset="1" Color="#8E6FC4" />
+      </LinearGradientBrush>
+      <SolidColorBrush x:Key="Brush.Glass" Color="{DynamicResource Glass.Fill}" />
+      <SolidColorBrush x:Key="Brush.Glass.Strong" Color="{DynamicResource Glass.Fill.Strong}" />
+      <SolidColorBrush x:Key="Brush.Glass.Hover" Color="{DynamicResource Glass.Fill.Hover}" />
+      <SolidColorBrush x:Key="Brush.Glass.Inset" Color="{DynamicResource Glass.Fill.Inset}" />
+      <SolidColorBrush x:Key="Brush.Glass.InsetHover" Color="{DynamicResource Glass.Fill.InsetHover}" />
+      <SolidColorBrush x:Key="Brush.Glass.Border" Color="{DynamicResource Glass.Border}" />
+      <SolidColorBrush x:Key="Brush.Glass.BorderStrong" Color="{DynamicResource Glass.Border.Strong}" />
+      <SolidColorBrush x:Key="Brush.Glass.BorderInset" Color="{DynamicResource Glass.Border.Inset}" />
+      <SolidColorBrush x:Key="Brush.Fg" Color="{DynamicResource Fg.Primary}" />
+      <SolidColorBrush x:Key="Brush.Fg.Secondary" Color="{DynamicResource Fg.Secondary}" />
+      <SolidColorBrush x:Key="Brush.Fg.Tertiary" Color="{DynamicResource Fg.Tertiary}" />
+      <SolidColorBrush x:Key="Brush.Rose" Color="{DynamicResource Accent.Rose}" />
+      <SolidColorBrush x:Key="Brush.Rose.Deep" Color="{DynamicResource Accent.Rose.Deep}" />
+      <SolidColorBrush x:Key="Brush.Lavender" Color="{DynamicResource Accent.Lavender}" />
+      <SolidColorBrush x:Key="Brush.Honey" Color="{DynamicResource Accent.Honey}" />
+      <SolidColorBrush x:Key="Brush.Mint" Color="{DynamicResource Accent.Mint}" />
+      <SolidColorBrush x:Key="Brush.Coral" Color="{DynamicResource Accent.Coral}" />
+      <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource Ground.Base}" />
+      <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource Glass.Border}" />
+      <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource Glass.Border.Inset}" />
+      <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{DynamicResource Glass.Fill}" />
+      <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource Glass.Fill.Strong}" />
+      <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource Glass.Fill.Hover}" />
+      <SolidColorBrush x:Key="ThemeForegroundBrush" Color="{DynamicResource Fg.Primary}" />
+      <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource Fg.Secondary}" />
+      <SolidColorBrush x:Key="ThemeForegroundMidBrush" Color="{DynamicResource Fg.Tertiary}" />
+      <DropShadowEffect x:Key="Effect.Accent" BlurRadius="18" OffsetY="3" Color="#B3E58AA8" Opacity="0.55" />
+      <DropShadowEffect x:Key="Effect.Panel" BlurRadius="28" OffsetY="6" Color="#5954404E" Opacity="0.5" />
+    </ResourceDictionary>
+
+    <ResourceDictionary x:Key="{x:Static app:ThemeManager.SageVariant}">
+      <Color x:Key="Ground.Base">#F3F4EA</Color>
+      <Color x:Key="Ground.Warm">#E9EBDB</Color>
+      <Color x:Key="Glow.Rose">#EADFC6</Color>
+      <Color x:Key="Glow.Lavender">#DDE3CB</Color>
+      <Color x:Key="Fg.Primary">#3E4A38</Color>
+      <Color x:Key="Fg.Secondary">#68755F</Color>
+      <Color x:Key="Fg.Tertiary">#9AA48F</Color>
+      <Color x:Key="Glass.Fill">#BFFFFFFF</Color>
+      <Color x:Key="Glass.Fill.Strong">#D9FFFFFF</Color>
+      <Color x:Key="Glass.Fill.Hover">#FFFFFFFF</Color>
+      <Color x:Key="Glass.Fill.Inset">#0F3E4A38</Color>
+      <Color x:Key="Glass.Fill.InsetHover">#1A3E4A38</Color>
+      <Color x:Key="Glass.Border">#333E4A38</Color>
+      <Color x:Key="Glass.Border.Strong">#4D3E4A38</Color>
+      <Color x:Key="Glass.Border.Inset">#243E4A38</Color>
+      <Color x:Key="Accent.Rose">#C06A80</Color>
+      <Color x:Key="Accent.Rose.Deep">#9C4A62</Color>
+      <Color x:Key="Accent.Lavender">#8A86B8</Color>
+      <Color x:Key="Accent.Honey">#B57E2E</Color>
+      <Color x:Key="Accent.Mint">#4F7F5E</Color>
+      <Color x:Key="Accent.Coral">#C05A48</Color>
+      <LinearGradientBrush x:Key="Brush.Ambient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="#F6F7EE" />
+        <GradientStop Offset="0.55" Color="#EFF1E2" />
+        <GradientStop Offset="1" Color="#E7E9D5" />
+      </LinearGradientBrush>
+      <RadialGradientBrush x:Key="Brush.Glow.Top">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0" Color="#EFE3C8" />
+          <GradientStop Offset="1" Color="#00EFE3C8" />
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Center>0.08,0.0</RadialGradientBrush.Center>
+        <RadialGradientBrush.RadiusX>0.9</RadialGradientBrush.RadiusX>
+        <RadialGradientBrush.RadiusY>0.9</RadialGradientBrush.RadiusY>
+      </RadialGradientBrush>
+      <RadialGradientBrush x:Key="Brush.Glow.Bottom">
+        <RadialGradientBrush.GradientStops>
+          <GradientStop Offset="0" Color="#DCE2C2" />
+          <GradientStop Offset="1" Color="#00DCE2C2" />
+        </RadialGradientBrush.GradientStops>
+        <RadialGradientBrush.Center>1,1</RadialGradientBrush.Center>
+        <RadialGradientBrush.RadiusX>1.0</RadialGradientBrush.RadiusX>
+        <RadialGradientBrush.RadiusY>1.0</RadialGradientBrush.RadiusY>
+      </RadialGradientBrush>
+      <LinearGradientBrush x:Key="Brush.Accent" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#7BA05F" />
+        <GradientStop Offset="1" Color="#B3924E" />
+      </LinearGradientBrush>
+      <LinearGradientBrush x:Key="Brush.Accent.Foreground" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="#4F7F5E" />
+        <GradientStop Offset="1" Color="#8A6D3B" />
+      </LinearGradientBrush>
+      <SolidColorBrush x:Key="Brush.Glass" Color="{DynamicResource Glass.Fill}" />
+      <SolidColorBrush x:Key="Brush.Glass.Strong" Color="{DynamicResource Glass.Fill.Strong}" />
+      <SolidColorBrush x:Key="Brush.Glass.Hover" Color="{DynamicResource Glass.Fill.Hover}" />
+      <SolidColorBrush x:Key="Brush.Glass.Inset" Color="{DynamicResource Glass.Fill.Inset}" />
+      <SolidColorBrush x:Key="Brush.Glass.InsetHover" Color="{DynamicResource Glass.Fill.InsetHover}" />
+      <SolidColorBrush x:Key="Brush.Fg" Color="{DynamicResource Fg.Primary}" />
+      <SolidColorBrush x:Key="Brush.Fg.Secondary" Color="{DynamicResource Fg.Secondary}" />
+      <SolidColorBrush x:Key="Brush.Fg.Tertiary" Color="{DynamicResource Fg.Tertiary}" />
+      <SolidColorBrush x:Key="Brush.Glass.Border" Color="{DynamicResource Glass.Border}" />
+      <SolidColorBrush x:Key="Brush.Glass.BorderStrong" Color="{DynamicResource Glass.Border.Strong}" />
+      <SolidColorBrush x:Key="Brush.Glass.BorderInset" Color="{DynamicResource Glass.Border.Inset}" />
+      <SolidColorBrush x:Key="Brush.Rose" Color="{DynamicResource Accent.Rose}" />
+      <SolidColorBrush x:Key="Brush.Rose.Deep" Color="{DynamicResource Accent.Rose.Deep}" />
+      <SolidColorBrush x:Key="Brush.Lavender" Color="{DynamicResource Accent.Lavender}" />
+      <SolidColorBrush x:Key="Brush.Honey" Color="{DynamicResource Accent.Honey}" />
+      <SolidColorBrush x:Key="Brush.Mint" Color="{DynamicResource Accent.Mint}" />
+      <SolidColorBrush x:Key="Brush.Coral" Color="{DynamicResource Accent.Coral}" />
+      <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource Ground.Base}" />
+      <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource Glass.Border}" />
+      <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource Glass.Border.Inset}" />
+      <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{DynamicResource Glass.Fill}" />
+      <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource Glass.Fill.Strong}" />
+      <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource Glass.Fill.Hover}" />
+      <SolidColorBrush x:Key="ThemeForegroundBrush" Color="{DynamicResource Fg.Primary}" />
+      <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource Fg.Secondary}" />
+      <SolidColorBrush x:Key="ThemeForegroundMidBrush" Color="{DynamicResource Fg.Tertiary}" />
+      <DropShadowEffect x:Key="Effect.Accent" BlurRadius="18" OffsetY="3" Color="#B37BA05F" Opacity="0.55" />
+      <DropShadowEffect x:Key="Effect.Panel" BlurRadius="28" OffsetY="6" Color="#593E4A38" Opacity="0.5" />
+    </ResourceDictionary>
+
+  </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
