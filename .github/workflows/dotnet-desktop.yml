@@ -9,8 +9,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+# upload-artifact requires actions:write (contents:read alone yields HTTP 403
+# on upload, so no artifact appears).
 permissions:
   contents: read
+  actions: write
 
 jobs:
 
