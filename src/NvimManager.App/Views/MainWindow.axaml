@@ -6,6 +6,7 @@
         mc:Ignorable="d"
         x:Class="NvimManager.App.Views.MainWindow"
         Title="NvimManager"
+        Icon="avares://NvimManager/Assets/nvimmanager.ico"
         Width="1240" Height="820" MinWidth="980" MinHeight="640"
         WindowStartupLocation="CenterScreen"
         Background="Transparent"

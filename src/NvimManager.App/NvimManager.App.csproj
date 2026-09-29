@@ -4,8 +4,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>NvimManager.App</RootNamespace>
     <AssemblyName>NvimManager</AssemblyName>
+    <ApplicationIcon>Assets\nvimmanager.ico</ApplicationIcon>
     <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.3.22" />
