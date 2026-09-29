@@ -31,12 +31,8 @@
           <Border Grid.Column="0" Padding="14,0,0,0" Background="Transparent"
                   PointerPressed="OnTitleBarPressed" Cursor="SizeAll">
             <StackPanel Orientation="Horizontal" Spacing="9" VerticalAlignment="Center">
-              <Border Classes="pill" Width="26" Height="26" CornerRadius="9"
-                      Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center">
-                <Path Data="{DynamicResource Icon.Heart}" Stroke="#2A101B" StrokeThickness="1.5"
-                      Fill="Transparent" StrokeLineCap="Round" StrokeJoin="Round"
-                      Width="13" Height="13" Stretch="Uniform" />
-              </Border>
+              <Image Source="avares://NvimManager/Assets/nvimmanager.png"
+                     Width="22" Height="22" VerticalAlignment="Center" />
               <TextBlock Text="NvimManager" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" />
             </StackPanel>
           </Border>
