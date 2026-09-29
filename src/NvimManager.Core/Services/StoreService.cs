@@ -67,8 +67,8 @@ public sealed class StoreService : IDisposable
 
     public async Task<OpResult> UninstallAsync(string repo)
     {
-        string dir = InstallDirFor(repo);
-        if (!GitService.LooksInstalled(dir))
+        string? dir = await FindInstalledDirAsync(repo);
+        if (dir is null)
             return new OpResult(true, "Not installed.");
 
         try
@@ -88,30 +88,42 @@ public sealed class StoreService : IDisposable
         }
     }
 
+    /// <summary>Resolves the directory a repo is actually installed in: the lazy
+    /// root first, then any discovered plugin directory (other managers).</summary>
+    private async Task<string?> FindInstalledDirAsync(string repo)
+    {
+        string lazy = InstallDirFor(repo);
+        if (GitService.LooksInstalled(lazy)) return lazy;
+
+        var items = await ListInstalledAsync(checkUpdates: false);
+        return items.FirstOrDefault(i =>
+                string.Equals(i.Repo, repo, StringComparison.OrdinalIgnoreCase)
+                && GitDirReader.HasGit(i.Dir))?.Dir;
+    }
+
     public async Task<OpResult> UpdateAsync(string repo)
     {
-        string dir = InstallDirFor(repo);
-        if (!GitService.LooksInstalled(dir))
+        string? dir = await FindInstalledDirAsync(repo);
+        if (dir is null)
             return new OpResult(false, $"Not installed: {repo}");
-
-        var r = await _git.UpdateAsync(dir);
-        return r.Success
-            ? new OpResult(true, $"Updated {repo}.")
-            : new OpResult(false, $"Update of {repo} failed:\n{r.Combined}");
+        return await UpdateDirAsync(dir);
     }
 
     public async Task<OpResult> UpdateAllAsync()
     {
         var items = await ListInstalledAsync(checkUpdates: false);
+        var updatable = items.Where(i => GitDirReader.HasGit(i.Dir)).ToList();
+        int skipped = items.Count - updatable.Count;
         var failures = new List<string>();
         int ok = 0;
-        foreach (var item in items)
+        foreach (var item in updatable)
         {
             var r = await UpdateDirAsync(item.Dir);
             if (r.Success) ok++;
             else failures.Add(item.Repo + ": " + r.Message);
         }
-        string summary = $"Updated {ok}/{items.Count} plugin(s).";
+        string summary = $"Updated {ok}/{updatable.Count} plugin(s).";
+        if (skipped > 0) summary += $" Skipped {skipped} non-git directory(ies).";
         if (failures.Count > 0) summary += "\n\n" + string.Join("\n", failures);
         return new OpResult(failures.Count == 0, summary);
     }
@@ -122,10 +134,11 @@ public sealed class StoreService : IDisposable
         if (!GitDirReader.HasGit(dir))
             return new OpResult(false, $"Not a git checkout: {dir}");
 
+        string name = Path.GetFileName(dir.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
         var r = await _git.UpdateAsync(dir);
         return r.Success
-            ? new OpResult(true, $"Updated {dir}.")
-            : new OpResult(false, $"Update of {dir} failed:\n{r.Combined}");
+            ? new OpResult(true, $"Updated {name}.")
+            : new OpResult(false, $"Update of {name} failed:\n{r.Combined}");
     }
 
     /// <summary>Removes a discovered plugin directory (any manager).</summary>
@@ -356,6 +369,25 @@ public sealed class StoreService : IDisposable
         return map;
     }
 
+    /// <summary>
+    /// Fetches every git-backed checkout (4 in parallel, so remote data is
+    /// fresh), then re-scans and compares HEAD against the newly fetched
+    /// origin/HEAD. This is what makes "Check for updates" actually detect
+    /// new upstream commits.
+    /// </summary>
+    public async Task<List<InstalledItem>> CheckForUpdatesAsync()
+    {
+        var items = await ListInstalledAsync(checkUpdates: false);
+        var gitDirs = items.Where(i => GitDirReader.HasGit(i.Dir)).Select(i => i.Dir).ToList();
+
+        await Parallel.ForEachAsync(
+            gitDirs,
+            new ParallelOptions { MaxDegreeOfParallelism = 4 },
+            async (dir, _) => await _git.FetchAsync(dir));
+
+        return await ListInstalledAsync(checkUpdates: true);
+    }
+
     /// <summary>Builds the spec table for the managed config from catalog + saved settings.</summary>
     public IReadOnlyList<LazySpec> BuildSpecs()
     {
@@ -368,19 +400,22 @@ public sealed class StoreService : IDisposable
                 specs.Add(BuildSpec(entry, settings));
         }
 
-        foreach (var candidate in Directory.EnumerateDirectories(_paths.LazyRoot))
+        if (Directory.Exists(_paths.LazyRoot))
         {
-            if (!GitService.LooksInstalled(candidate)) continue;
-            string name = Path.GetFileName(candidate);
-            if (string.Equals(name, "lazy.nvim", StringComparison.OrdinalIgnoreCase)) continue;
-
-            string repo = ResolveRepoFromCatalog(name);
-            if (_settings.All.ContainsKey(repo)) continue;
-            var entry = _catalog.GetByRepo(repo);
-            if (entry is not null)
+            foreach (var candidate in Directory.EnumerateDirectories(_paths.LazyRoot))
             {
-                var settings = new PluginSettings { Repo = repo };
-                specs.Add(BuildSpec(entry, settings));
+                if (!GitService.LooksInstalled(candidate)) continue;
+                string name = Path.GetFileName(candidate);
+                if (string.Equals(name, "lazy.nvim", StringComparison.OrdinalIgnoreCase)) continue;
+
+                string repo = ResolveRepoFromCatalog(name);
+                if (_settings.All.ContainsKey(repo)) continue;
+                var entry = _catalog.GetByRepo(repo);
+                if (entry is not null)
+                {
+                    var settings = new PluginSettings { Repo = repo };
+                    specs.Add(BuildSpec(entry, settings));
+                }
             }
         }
 

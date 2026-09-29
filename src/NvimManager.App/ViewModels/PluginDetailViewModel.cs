@@ -26,7 +26,7 @@ public sealed partial class PluginDetailViewModel : ViewModelBase
 
         Config.Load(entry, services.Store.TryLoadSchema(entry), services.Settings.GetOrCreate(entry.Repo));
         LoadFromSettings(services.Settings.GetOrCreate(entry.Repo));
-        _ = Task.Run(RefreshInstalledAsync);
+        _ = RefreshInstalledAsync();
     }
 
     public CatalogEntry Entry { get; }
@@ -110,6 +110,17 @@ public sealed partial class PluginDetailViewModel : ViewModelBase
     private void Back() => _goBack();
 
     [RelayCommand]
+    private void OpenOnGitHub()
+    {
+        var psi = new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = Entry.HomepageOrRepo,
+            UseShellExecute = true,
+        };
+        System.Diagnostics.Process.Start(psi);
+    }
+
+    [RelayCommand]
     private async Task InstallAsync()
     {
         IsBusy = true;
@@ -175,7 +186,12 @@ public sealed partial class PluginDetailViewModel : ViewModelBase
             SetStatus("Updating...");
             var result = await _services.Store.UpdateAsync(Entry.Repo);
             SetStatus(result.Message);
-            await RefreshInstalledAsync();
+            if (result.Success)
+                await RefreshInstalledAsync();
+        }
+        catch (Exception ex)
+        {
+            SetStatus("Update failed: " + ex.Message);
         }
         finally
         {
@@ -261,6 +277,8 @@ public sealed partial class PluginDetailViewModel : ViewModelBase
     }
 
     private void SetStatus(string text) => StatusText = text;
+
+    public void ShowCopyConfirmation() => StatusText = "Generated Lua spec copied to the clipboard.";
 
     private static string FormatStars(int? stars)
         => stars is null ? "" : $"{stars:N0}";

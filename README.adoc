@@ -12,11 +12,13 @@ Built with https://avaloniaui.net/[Avalonia UI] on .NET 10 (Windows).
 
 * **Community store** — 60 curated plugins across 6 categories
   (Colorscheme, Completion & LSP, Editing, File & Search, Git & Tools,
-  UI & Statusline) with search, category filter, featured toggle, and
-  live star counts enriched from GitHub (cached for 12 hours).
+  UI & Statusline) with search, category filter, featured toggle, sorting
+  (name / stars / category), and live star counts enriched from GitHub
+  (cached for 12 hours).
 * **Install / update / uninstall** — shallow git clones straight into your
-  plugin directory, fast-forward updates, per-plugin update checks, and
-  update-all in one click.
+  plugin directory, fast-forward updates (including detached-HEAD lockfile
+  checkouts), network-backed update checks that fetch first, and update-all
+  in one click.
 * **Detects what you already have** — scans every common plugin manager
   layout (see <<supported-managers>>), reads each checkout's git metadata
   directly from its `.git` directory (no slow per-plugin git processes),
@@ -92,12 +94,13 @@ git push origin v0.1.0
 === Store
 
 The plugin marketplace: a search box (matches name, repo, tags, and
-description), a category dropdown, a *Featured* chip, and a *Refresh*
-button. Each card shows the plugin name, repo, description, tags,
-category, star count, and an installed/not-installed pill, with
-*Install* (accent), *Uninstall*, and *Configure* actions sized uniformly.
-The header carries a headline and the Sprout mascot; the footer reports
-the catalog size.
+description), a sort dropdown (Name / Stars / Category), a category
+dropdown, a *Featured* chip, and a *Refresh* button. Each card shows the
+plugin name, repo, description, tags, category, star count, and an
+installed/not-installed pill, with *Install* (accent), *Uninstall*, and
+*Configure* actions sized uniformly. Stars and descriptions are enriched
+from GitHub in the background. The footer reports the catalog size plus
+the outcome of the last install/uninstall action.
 
 Selecting a card (or pressing *Configure*) opens the plugin detail page.
 
@@ -109,11 +112,13 @@ an *Update available* pill when the local checkout trails `origin/HEAD`,
 and *Update*, *Open folder*, and *Uninstall* actions.
 
 * *Refresh* rescans the filesystem (fast: pure file reads, no git processes).
-* *Check for updates* compares each checkout's `HEAD` against the locally
-  known `origin/HEAD` — exactly what a bare `rev-parse` would report, so
-  run `git fetch` first if you want fresh results. No fetching is done
-  automatically.
-* *Update all* fast-forward pulls every git-backed plugin.
+* *Check for updates* fetches every git-backed checkout first (4 at a time,
+  updating the remote-tracking refs) and then compares each checkout's
+  `HEAD` against the freshly fetched `origin/HEAD`. Per-row *Update* and
+  *Uninstall* report their outcome in the status line.
+* *Update all* fast-forward updates every git-backed plugin; non-git
+  directories (e.g. plain vim-plug or rocks installs) are skipped and
+  reported instead of failing the run.
 * The status line summarizes the total plus a per-manager breakdown
   (e.g. `128 plugin(s) · lazy.nvim 96 · packer.nvim 20 · vim-plug 12`).
   With an empty library it lists every supported manager instead.
@@ -121,7 +126,9 @@ and *Update*, *Open folder*, and *Uninstall* actions.
 === Plugin detail
 
 * Header with back navigation, category, stars, repo, tags, description,
-  and Install / Update / Uninstall / Refresh-metadata / Open-folder actions.
+  and Install / Update / Uninstall / Refresh-metadata / Open-on-Git /
+  Open-folder actions. The generated spec preview can be copied to the
+  clipboard.
 * *Lazy loading options* — enabled, lazy, version, branch, priority,
   dev-mode, one-per-line events/commands/filetypes, raw keys spec, build.
 * *Plugin configuration* — the schema form for the 13 supported plugins,
@@ -392,9 +399,9 @@ Notes for contributors:
 * **Stars/descriptions missing:** GitHub enrichment is rate-limited;
   metadata caches for 12 hours and backfills on *Refresh* /
   *Refresh metadata*.
-* **Update check says everything is up to date:** the check compares
-  `HEAD` against the locally known `origin/HEAD` without fetching.
-  Run `git fetch` (or update once) for fresh results.
+* **Update check says everything is up to date:** *Check for updates*
+  fetches by itself now. A checkout with local changes is never touched —
+  commit, stash or revert it first.
 * **Theme or window looks stale after upgrading:** make sure no old
   `NvimManager` process is still running from a previous build.
 

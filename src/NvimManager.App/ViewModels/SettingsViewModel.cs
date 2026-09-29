@@ -56,8 +56,15 @@ public sealed partial class SettingsViewModel : ViewModelBase
     [RelayCommand]
     private void OpenInitLua()
     {
-        Directory.CreateDirectory(Path.GetDirectoryName(InitLua) ?? ConfigDir);
-        OpenPath(InitLua);
+        // Never create a foreign init.lua: if it does not exist yet, show the
+        // config directory instead of an Explorer error dialog.
+        if (File.Exists(InitLua))
+            OpenPath(InitLua);
+        else
+        {
+            Directory.CreateDirectory(ConfigDir);
+            OpenPath(ConfigDir);
+        }
     }
 
     [RelayCommand]

@@ -42,6 +42,7 @@
           <Button Content="Uninstall" Classes="soft" Command="{Binding UninstallCommand}"
                   IsVisible="{Binding IsInstalled}" />
           <Button Content="Refresh metadata" Classes="soft" Command="{Binding RefreshMetadataCommand}" />
+          <Button Content="Open on GitHub" Classes="soft" Command="{Binding OpenOnGitHubCommand}" />
           <Button Content="Open folder" Classes="soft" Command="{Binding OpenFolderCommand}"
                   IsVisible="{Binding IsInstalled}" />
         </StackPanel>
@@ -126,8 +127,11 @@
         <Border Classes="inset" Padding="18,14">
           <Expander Header="Generated spec preview" IsExpanded="False">
             <StackPanel Spacing="8" Margin="0,12,0,0">
-              <Button Content="Generate preview" Classes="soft" Command="{Binding GeneratePreviewCommand}"
-                      HorizontalAlignment="Left" />
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="Generate preview" Classes="soft" Command="{Binding GeneratePreviewCommand}" />
+                <Button Content="Copy Lua" Classes="soft" Click="OnCopyPreviewClick"
+                        IsVisible="{Binding ShowPreview}" />
+              </StackPanel>
               <TextBox Text="{Binding PreviewText}" AcceptsReturn="True" MinHeight="220"
                        FontFamily="Consolas, Cascadia Code, monospace" TextWrapping="NoWrap"
                        IsReadOnly="True" ScrollViewer.HorizontalScrollBarVisibility="Auto"

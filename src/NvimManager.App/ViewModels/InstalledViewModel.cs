@@ -20,33 +20,13 @@ public sealed partial class InstalledViewModel : ViewModelBase
     [ObservableProperty] private bool _isBusy;
 
     [RelayCommand]
-    public async Task RefreshAsync()
+    private async Task RefreshAsync()
     {
         IsBusy = true;
         try
         {
             var list = await _services.Store.ListInstalledAsync(checkUpdates: false);
-            var current = Items.Select(i => i.Dir).ToHashSet(StringComparer.OrdinalIgnoreCase);
-            var next = list.Select(i => i.Dir).ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var removed in current.Except(next, StringComparer.OrdinalIgnoreCase).ToList())
-            {
-                var item = Items.FirstOrDefault(i => string.Equals(i.Dir, removed, StringComparison.OrdinalIgnoreCase));
-                if (item is not null) Items.Remove(item);
-            }
-
-            foreach (var installed in list)
-            {
-                var item = Items.FirstOrDefault(i => string.Equals(i.Dir, installed.Dir, StringComparison.OrdinalIgnoreCase));
-                if (item is null)
-                {
-                    Items.Add(new InstalledItemViewModel(installed, _services.Store, RemoveItem));
-                }
-                else
-                {
-                    item.Update(installed);
-                }
-            }
+            SyncItems(list);
 
             StatusText = Describe(list, _services.Store.IsAstroNvim);
         }
@@ -60,19 +40,43 @@ public sealed partial class InstalledViewModel : ViewModelBase
         }
     }
 
+    private void SyncItems(List<InstalledItem> list)
+    {
+        var current = Items.Select(i => i.Dir).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var next = list.Select(i => i.Dir).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var removed in current.Except(next, StringComparer.OrdinalIgnoreCase).ToList())
+        {
+            var item = Items.FirstOrDefault(i => string.Equals(i.Dir, removed, StringComparison.OrdinalIgnoreCase));
+            if (item is not null) Items.Remove(item);
+        }
+
+        foreach (var installed in list)
+        {
+            var item = Items.FirstOrDefault(i => string.Equals(i.Dir, installed.Dir, StringComparison.OrdinalIgnoreCase));
+            if (item is null)
+            {
+                Items.Add(new InstalledItemViewModel(installed, _services.Store, RemoveItem, ReportStatus));
+            }
+            else
+            {
+                item.Update(installed);
+            }
+        }
+    }
+
+    private void ReportStatus(string message) => StatusText = message;
+
     [RelayCommand]
     private async Task CheckUpdatesAsync()
     {
         IsBusy = true;
         try
         {
-            var list = await _services.Store.ListInstalledAsync(checkUpdates: true);
-            var map = list.ToDictionary(i => i.Dir, StringComparer.OrdinalIgnoreCase);
-            foreach (var item in Items)
-            {
-                if (map.TryGetValue(item.Dir, out var updated))
-                    item.Update(updated);
-            }
+            StatusText = "Fetching latest commits from GitHub...";
+            var list = await _services.Store.CheckForUpdatesAsync();
+            SyncItems(list);
+
             var withUpdates = Items.Count(i => i.HasUpdate);
             StatusText = withUpdates > 0 ? $"{withUpdates} plugin(s) have updates." : "All plugins up to date.";
         }
@@ -126,11 +130,13 @@ public sealed partial class InstalledItemViewModel : ViewModelBase
 {
     private readonly StoreService _store;
     private readonly Action _onRemoved;
+    private readonly Action<string> _report;
 
-    public InstalledItemViewModel(InstalledItem item, StoreService store, Action onRemoved)
+    public InstalledItemViewModel(InstalledItem item, StoreService store, Action onRemoved, Action<string> report)
     {
         _store = store;
         _onRemoved = onRemoved;
+        _report = report;
         _repo = item.Repo;
         _name = item.Name;
         _dir = item.Dir;
@@ -174,8 +180,14 @@ public sealed partial class InstalledItemViewModel : ViewModelBase
         IsBusy = true;
         try
         {
-            await _store.UpdateDirAsync(Dir);
-            _onRemoved();
+            var result = await _store.UpdateDirAsync(Dir);
+            _report(result.Message);
+            if (result.Success)
+                _onRemoved();
+        }
+        catch (Exception ex)
+        {
+            _report($"Update of {Name} failed: {ex.Message}");
         }
         finally
         {
@@ -189,8 +201,14 @@ public sealed partial class InstalledItemViewModel : ViewModelBase
         IsBusy = true;
         try
         {
-            await _store.UninstallDirAsync(Dir);
-            _onRemoved();
+            var result = await _store.UninstallDirAsync(Dir);
+            _report(result.Message);
+            if (result.Success)
+                _onRemoved();
+        }
+        catch (Exception ex)
+        {
+            _report($"Failed to remove {Name}: {ex.Message}");
         }
         finally
         {

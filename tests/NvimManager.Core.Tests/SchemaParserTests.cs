@@ -52,8 +52,8 @@ public class SchemaParserTests
 
         var big = byKey["big"];
         Assert.Equal(FieldType.Table, big.Type);
-        Assert.Equal(1, big.Children!.Count);
-        Assert.Equal(10L, big.Children[0].DefaultValue);
+        Assert.Single(big.Children!);
+        Assert.Equal(10L, big.Children![0].DefaultValue);
 
         Assert.Equal(FieldType.Lua, byKey["hook"].Type);
     }
