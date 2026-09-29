@@ -1,0 +1,93 @@
+# macOS release. Triggered by a version tag (e.g. v0.1.0).
+# Deliberately separate from release-windows.yml / release-linux.yml so a
+# failure on one platform never blocks the release assets of another.
+#
+# The published app is framework-dependent: users need the .NET 10 runtime.
+# The binaries are not codesigned/notarized — first launch needs
+# `xattr -dr com.apple.quarantine NvimManager.app` (or right-click > Open).
+
+name: Release (macOS)
+
+on:
+  push:
+    tags: [ "v*" ]
+
+permissions:
+  contents: write
+
+jobs:
+
+  release:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-latest, rid: osx-x64 }
+          - { os: macos-latest, rid: osx-arm64 }
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Install the .NET SDK (the projects target net10.0)
+    - name: Install .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Publish app
+      run: dotnet publish src/NvimManager.App/NvimManager.App.csproj -c Release -r ${{ matrix.rid }} --self-contained false -o publish/app
+
+    # Wrap the output in a minimal .app bundle so Finder/LaunchServices treat
+    # it as an application, then pack it.
+    - name: Bundle app
+      run: |
+        APP="NvimManager.app/Contents/MacOS"
+        mkdir -p "$APP"
+        mkdir -p "NvimManager.app/Contents/Resources"
+        cp -R publish/app/* "$APP/"
+        cat > "NvimManager.app/Contents/Info.plist" <<EOF
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+          <dict>
+            <key>CFBundleName</key><string>NvimManager</string>
+            <key>CFBundleIdentifier</key><string>io.github.marin-kitagawa.nvimmanager</string>
+            <key>CFBundleExecutable</key><string>NvimManager</string>
+            <key>CFBundlePackageType</key><string>APPL</string>
+            <key>CFBundleShortVersionString</key><string>${{ github.ref_name }}</string>
+            <key>NSHighResolutionCapable</key><true/>
+          </dict>
+        </plist>
+        EOF
+        chmod +x "NvimManager.app/Contents/MacOS/NvimManager"
+        tar -czf "NvimManager-${{ matrix.rid }}.tar.gz" NvimManager.app
+
+    - name: Ensure release exists
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        for i in 1 2 3 4 5; do
+          if gh release view "${{ github.ref_name }}" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            exit 0
+          fi
+          gh release create "${{ github.ref_name }}" --repo "$GITHUB_REPOSITORY" \
+            --title "NvimManager ${{ github.ref_name }}" --generate-notes > /dev/null 2>&1 && exit 0
+          echo "Release creation raced with another platform workflow, retrying..."
+          sleep 15
+        done
+        # Final check: another workflow may have created it in the meantime.
+        gh release view "${{ github.ref_name }}" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1
+
+    - name: Upload release asset
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        for i in 1 2 3; do
+          gh release upload "${{ github.ref_name }}" "NvimManager-${{ matrix.rid }}.tar.gz" --repo "$GITHUB_REPOSITORY" --clobber && exit 0
+          sleep 10
+        done
+        exit 1

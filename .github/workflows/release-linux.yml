@@ -1,0 +1,70 @@
+# Linux release. Triggered by a version tag (e.g. v0.1.0).
+# Deliberately separate from release-windows.yml / release-macos.yml so a
+# failure on one platform never blocks the release assets of another.
+#
+# The published app is framework-dependent: users need the .NET 10 runtime
+# (`dotnet NvimManager.dll`) or a matching runtime install.
+
+name: Release (Linux)
+
+on:
+  push:
+    tags: [ "v*" ]
+
+permissions:
+  contents: write
+
+jobs:
+
+  release:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, rid: linux-x64 }
+          - { os: ubuntu-latest, rid: linux-arm64 }
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Install the .NET SDK (the projects target net10.0)
+    - name: Install .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Publish app
+      run: dotnet publish src/NvimManager.App/NvimManager.App.csproj -c Release -r ${{ matrix.rid }} --self-contained false -o publish/app
+
+    - name: Pack app
+      run: tar -czf "NvimManager-${{ matrix.rid }}.tar.gz" -C publish/app .
+
+    - name: Ensure release exists
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        for i in 1 2 3 4 5; do
+          if gh release view "${{ github.ref_name }}" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            exit 0
+          fi
+          gh release create "${{ github.ref_name }}" --repo "$GITHUB_REPOSITORY" \
+            --title "NvimManager ${{ github.ref_name }}" --generate-notes > /dev/null 2>&1 && exit 0
+          echo "Release creation raced with another platform workflow, retrying..."
+          sleep 15
+        done
+        # Final check: another workflow may have created it in the meantime.
+        gh release view "${{ github.ref_name }}" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1
+
+    - name: Upload release asset
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        for i in 1 2 3; do
+          gh release upload "${{ github.ref_name }}" "NvimManager-${{ matrix.rid }}.tar.gz" --repo "$GITHUB_REPOSITORY" --clobber && exit 0
+          sleep 10
+        done
+        exit 1

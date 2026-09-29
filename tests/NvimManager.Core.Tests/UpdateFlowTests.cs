@@ -87,6 +87,40 @@ public sealed class UpdateFlowTests : IDisposable
     }
 
     [Fact]
+    public async Task UpdateAsync_updates_clone_pinned_to_a_tag()
+    {
+        if (!GitAvailable()) return;
+
+        string origin = MkDir("origin");
+        string plugin = MkDir("plugin");
+        Git(origin, "init", "-b", "main");
+        File.WriteAllText(Path.Combine(origin, "a.txt"), "v1\n");
+        Git(origin, "add", ".");
+        Git(origin, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-m", "v1");
+        Git(origin, "tag", "v1.0");
+
+        // Clone the default branch, then reproduce what `git clone --branch
+        // v1.0` does to the remote's fetch refspec (tag-only) and pin the
+        // checkout to the tag — without the flaky file:// tag-clone itself.
+        Git(plugin, "clone", "--depth", "1", OriginUrl(origin), plugin);
+        string configPath = Path.Combine(plugin, ".git", "config");
+        string config = File.ReadAllText(configPath)
+            .Replace("+refs/heads/*:refs/remotes/origin/*", "+refs/tags/v1.0:refs/tags/v1.0");
+        File.WriteAllText(configPath, config);
+        Git(plugin, "checkout", "--detach", "v1.0");
+
+        // The fetch inside UpdateAsync must still land origin/main despite
+        // the tag-only refspec.
+        File.WriteAllText(Path.Combine(origin, "a.txt"), "v2\n");
+        Git(origin, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-am", "v2");
+        string newSha = Git(origin, "rev-parse", "HEAD");
+
+        var result = await _git.UpdateAsync(plugin);
+        Assert.True(result.Success, result.Combined);
+        Assert.Equal(newSha, Git(plugin, "rev-parse", "HEAD"));
+    }
+
+    [Fact]
     public async Task FetchAsync_updates_origin_head_ref()
     {
         if (!GitAvailable()) return;
@@ -129,6 +163,7 @@ public sealed class UpdateFlowTests : IDisposable
 
     private static string Git(string workDir, params string[] args)
     {
+        Console.WriteLine($"[git] {workDir}: {string.Join(' ', args)}");
         var psi = new ProcessStartInfo("git")
         {
             WorkingDirectory = workDir,
@@ -137,6 +172,13 @@ public sealed class UpdateFlowTests : IDisposable
             UseShellExecute = false,
             CreateNoWindow = true,
         };
+        // Hermetic: the developer machine may globally enable GPG signing
+        // (commit.gpgsign/tag.gpgsign), which can block on the gpg agent.
+        foreach (var cfg in new[] { "commit.gpgsign=false", "tag.gpgsign=false" })
+        {
+            psi.ArgumentList.Add("-c");
+            psi.ArgumentList.Add(cfg);
+        }
         foreach (var arg in args) psi.ArgumentList.Add(arg);
         using var proc = Process.Start(psi)!;
         string stdout = proc.StandardOutput.ReadToEnd().Trim();

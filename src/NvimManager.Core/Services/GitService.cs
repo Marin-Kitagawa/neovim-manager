@@ -157,9 +157,22 @@ public sealed class GitService
     /// Fetches all remote branches, updating refs/remotes/origin/* (including
     /// the origin/HEAD symref target) so update checks see fresh data. Unlike a
     /// plain `fetch origin HEAD` this actually writes the remote-tracking refs.
+    /// Clones pinned to a tag (`--branch v1.2.3`) get no origin/HEAD symref from
+    /// git itself, so `remote set-head --auto` creates/refreshes it here.
     /// </summary>
     public async Task<GitResult> FetchAsync(string dir)
-        => await RunAsync(dir, "fetch", "--prune", "origin");
+    {
+        // The refspec must be explicit: clones pinned to a tag carry a
+        // tag-only fetch refspec, so a bare `fetch origin` would never
+        // populate refs/remotes/origin/* and updates could never resolve.
+        var fetch = await RunAsync(dir, "fetch", "--prune", "origin",
+            "+refs/heads/*:refs/remotes/origin/*");
+        if (!fetch.Success)
+            return fetch;
+
+        await RunAsync(dir, "remote", "set-head", "origin", "--auto");
+        return fetch;
+    }
 
     public async Task<string?> RevParseAsync(string dir, string revision = "HEAD")
     {

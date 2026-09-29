@@ -79,9 +79,31 @@ build (Debug + Release), unit tests, then publish + upload of the Release
 output. Those files land as *Artifacts* on the workflow run page (they
 expire) — they never appear under *Releases*.
 
-A version tag triggers `.github/workflows/release.yml` instead: it builds,
-tests, publishes, zips the app, and creates a GitHub Release with
-`NvimManager-win-x64.zip` attached and auto-generated notes. To cut one:
+A version tag triggers three independent release workflows instead —
+`release-windows.yml`, `release-linux.yml` and `release-macos.yml` — each
+building, packaging and uploading its own assets to the same GitHub
+Release (auto-generated notes). They run separately on purpose, so a
+failure on one platform never blocks the release assets of the others:
+
+[cols="1,2,2",options="header"]
+|===
+|Workflow |Assets |Notes
+
+|`release-windows.yml`
+|`NvimManager-win-x64.zip`
+|Also builds + runs the unit tests.
+
+|`release-linux.yml`
+|`NvimManager-linux-x64.tar.gz`, `NvimManager-linux-arm64.tar.gz`
+|Framework-dependent; needs the .NET 10 runtime.
+
+|`release-macos.yml`
+|`NvimManager-osx-x64.tar.gz`, `NvimManager-osx-arm64.tar.gz`
+|Minimal `.app` bundle; unsigned — clear the quarantine attribute on
+first launch (`xattr -dr com.apple.quarantine NvimManager.app`).
+|===
+
+To cut one:
 
 [source,powershell]
 ----
