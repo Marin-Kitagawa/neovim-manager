@@ -330,6 +330,24 @@ dir on Windows. If you installed plugins with one of those builds, move
 the contents of `%LOCALAPPDATA%\nvim\lazy` to
 `%LOCALAPPDATA%\nvim-data\lazy` so both Neovim and this app see them.
 
+== Architecture
+
+The complete architecture as a diagram — the Avalonia UI layer, the
+UI-independent `NvimManager.Core` services, and the external world they
+touch (git, the GitHub API, the Neovim directories on disk, and the
+app's own state files):
+
+image::docs/architecture.svg[NvimManager architecture diagram, align="center"]
+
+The source of truth is `docs/architecture.d2`
+(https://d2lang.com[D2] language). Regenerate the images after editing it:
+
+[source,powershell]
+----
+d2 --layout elk docs/architecture.d2 docs/architecture.svg
+d2 --layout elk docs/architecture.d2 docs/architecture.png
+----
+
 == Project layout
 
 ----
