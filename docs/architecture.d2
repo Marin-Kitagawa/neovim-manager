@@ -1,0 +1,223 @@
+direction: down
+
+title: {
+  label: "NvimManager — Architecture"
+  near: top-center
+  shape: text
+  style: { font-size: 26; bold: true }
+}
+
+classes: {
+  ui: {
+    style: {
+      fill: "#FDF3F7"
+      stroke: "#F4A7C3"
+      stroke-width: 2
+      border-radius: 8
+      font-size: 14
+    }
+  }
+  service: {
+    style: {
+      fill: "#F5F1FA"
+      stroke: "#C3B1E1"
+      stroke-width: 2
+      border-radius: 8
+      font-size: 14
+    }
+  }
+  external: {
+    style: {
+      fill: "#FBF6EA"
+      stroke: "#F0C07A"
+      stroke-width: 2
+      border-radius: 8
+      stroke-dash: 4
+      font-size: 13
+    }
+  }
+  store: {
+    style: {
+      fill: "#EFF7F1"
+      stroke: "#9CD1AE"
+      stroke-width: 2
+      border-radius: 8
+      font-size: 14
+    }
+  }
+  flow: {
+    style: { font-size: 11; stroke: "#8A7F93" }
+  }
+}
+
+user: Neovim user {
+  shape: person
+  style.fill: "#1A161D"
+  style.font-color: "#FFFFFF"
+}
+
+app: "NvimManager.App — Avalonia UI" {
+  class: ui
+
+  mainvm: "MainWindowViewModel\nnavigation + AppServices root" {
+    class: ui
+  }
+  pages: {
+    class: ui
+    store: "Store page\nsearch · filter · sort · enrichment" {
+      class: ui
+    }
+    installed: "Installed page\nscan · check updates · update all" {
+      class: ui
+    }
+    detail: "Plugin detail page\nlazy options · schema form · preview" {
+      class: ui
+    }
+    settings: "Settings page\nthemes · paths · write config" {
+      class: ui
+    }
+  }
+  configform: "ConfigFieldsView + FieldViewModels\ntyped schema editors" {
+    class: ui
+  }
+  thememanager: "ThemeManager\nCream · Plum · Pastel · Sage" {
+    class: ui
+  }
+}
+
+core: "NvimManager.Core — UI-independent logic" {
+  class: service
+
+  storesvc: "StoreService\nsingle façade: install · update · uninstall · list · BuildSpecs" {
+    class: store
+  }
+  catalog: "CatalogService + SchemaParser\nembedded catalog (60 plugins) + 13 schemas" {
+    class: service
+  }
+  git: "GitService\ngit CLI: clone · fetch · ff-merge · reset (timeout + kill)" {
+    class: service
+  }
+  gitdir: "GitDirReader\nparses .git files directly — HEAD, refs, remotes, tags" {
+    class: service
+  }
+  discovery: "PluginDiscoveryService\nmulti-manager filesystem scan + dedupe" {
+    class: service
+  }
+  generator: "LazyConfigGenerator + LuaWriter\nrenders managed lazy.nvim config" {
+    class: service
+  }
+  astro: "AstroNvim helpers\ndetection + managed spec files" {
+    class: service
+  }
+  settings: "SettingsStore\nper-plugin settings" {
+    class: service
+  }
+  github: "GitHubEnrichmentService\nstars + descriptions (12 h cache)" {
+    class: service
+  }
+  locator: "NeovimLocator\nXDG-aware path resolution" {
+    class: service
+  }
+}
+
+gitexe: "git.exe" {
+  class: external
+  shape: cylinder
+}
+
+githubapi: "GitHub API" {
+  class: external
+  shape: cloud
+}
+
+nvimdisk: "Neovim on disk" {
+  class: external
+
+  config: "config dir\ninit.lua (marker-guarded) · lua/nvimmanager.lua\nlua/nvimmanager/plugins.lua · lua/plugins/<name>.lua" {
+    shape: document
+    class: external
+  }
+  datadir: "data dir\nlazy/ checkouts · pack/ · plugged/\ndein/ · rocks/ · bundles" {
+    shape: document
+    class: external
+  }
+  lockfile: "lazy-lock.json" {
+    shape: document
+    class: external
+  }
+}
+
+appdata: "App state (%LOCALAPPDATA%\\NvimManager)" {
+  class: external
+
+  settingsjson: "settings.json\nper-plugin opts + lazy flags" {
+    shape: document
+    class: external
+  }
+  appjson: "app.json\nselected theme" {
+    shape: document
+    class: external
+  }
+  githubcache: "github-cache.json\nenriched metadata (12 h TTL)" {
+    shape: document
+    class: external
+  }
+}
+
+# UI wiring
+user -> app.mainvm: browses · installs · configures {
+  class: flow
+}
+app.mainvm -> app.pages.store
+app.mainvm -> app.pages.installed
+app.mainvm -> app.pages.detail
+app.mainvm -> app.pages.settings
+app.pages.detail -> app.configform: schema form
+app.pages.settings -> app.thememanager: live theme switch {
+  class: flow
+}
+
+# UI -> Core
+app.pages.store -> core.catalog: search / filter {
+  class: flow
+}
+app.pages.store -> core.github: backfill metadata {
+  class: flow
+}
+app.pages.store -> core.storesvc: install / uninstall {
+  class: flow
+}
+app.pages.installed -> core.storesvc: ListInstalled · CheckForUpdates · UpdateAll {
+  class: flow
+}
+app.pages.detail -> core.storesvc: install / update / build spec {
+  class: flow
+}
+app.configform -> core.settings: typed opts {
+  class: flow
+}
+app.pages.settings -> core.storesvc: write managed config {
+  class: flow
+}
+core.locator -> app.mainvm: NvimPaths
+
+# Core internals
+core.storesvc -> core.git: clone / fetch / update
+core.storesvc -> core.discovery: every manager layout
+core.storesvc -> core.generator: ApplyConfig
+core.storesvc -> core.settings: per-repo settings
+core.storesvc -> core.astro: config detection
+core.astro -> core.generator: per-plugin specs
+core.catalog -> core.settings: defaults
+
+# Core -> external
+core.git -> gitexe: ArgumentList, no shell
+gitexe -> githubapi: https clone / fetch
+core.github -> githubapi: repo metadata
+core.github -> appdata.githubcache: read / write
+core.settings -> appdata.settingsjson: load / save
+core.discovery -> nvimdisk.datadir: containers
+core.discovery -> nvimdisk.lockfile: repo identity
+core.gitdir -> nvimdisk.datadir: HEAD vs origin/HEAD
+core.storesvc -> nvimdisk.config: managed files only
+core.locator -> nvimdisk.config: path rules
